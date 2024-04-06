@@ -1,0 +1,1147 @@
+ ____   _____  ___   ____  ____  
+/ ___| |_   _||_ _| / ___|/ ___| 
+\___ \   | |   | | | |  _ \___ \ 
+ ___) |  | |   | | | |_| | ___) |
+|____/   |_|  |___| \____||____/ 
+                                 
+
+Google Chrome Current Windows STIG SCAP Benchmark
+
+This Security Technical Implementation Guide is published as a tool to improve the security of Department of Defense (DOD) information systems. The requirements are derived from the National Institute of Standards and Technology (NIST) 800-53 and related documents. Comments or proposed revisions to this document should be sent via email to the following address: disa.stig_spt@mail.mil.
+
+Rule ID: SV-221558r879534
+Version: DTBC-0001
+Title: Firewall traversal from remote host must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Remote connections should never be allowed that bypass the firewall, as there is no way to verify if they can be trusted. Enables usage of STUN and relay servers when remote clients are trying to establish a connection to this machine. If this setting is enabled, then remote clients can discover and connect to this machine even if they are separated by a firewall. If this setting is disabled and outgoing UDP connections are filtered by the firewall, then this machine will only allow connections from client machines within the local network. If this policy is left not set the setting will be enabled.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57545
+ - V-44711
+ - CCI-001414
+Fix Ref.: F-23262r769350_fix
+Fix Text: Windows group policy:
+ 1. Open the group policy editor tool with gpedit.msc 
+ 2. Navigate to Policy Path: Computer Configuration\Administrative\Templates\Google\Google Chrome\Remote Access
+ Policy Name: Enable firewall traversal from remote access host
+ Policy State: Disabled
+ Policy Value: N/A
+----------
+
+Rule ID: SV-221559r879627
+Version: DTBC-0002
+Title: Site tracking users location must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Website tracking is the practice of gathering information as to which websites were accesses by a browser. The common method of doing this is to have a website create a tracking cookie on the browser. If the information of what sites are being accessed is made available to unauthorized persons, this violates confidentiality requirements, and over time poses a significant OPSEC issue. This policy setting allows you to set whether websites are allowed to track the user’s physical location. Tracking the user’s physical location can be allowed by default, denied by default or the user can be asked every time a website requests the physical location. 1 = Allow sites to track the user’s physical location 2 = Do not allow any site to track the user’s physical location 3 = Ask whenever a site wants to track the user’s physical location
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57557
+ - V-44723
+ - CCI-001166
+Fix Ref.: F-23263r478200_fix
+Fix Text: Windows group policy:    
+   1. Open the group policy editor tool with gpedit.msc   
+   2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\Content Settings\    
+   Policy Name: Default geolocation setting    
+   Policy State: Enabled    
+   Policy Value: Do not allow any site to track the users' physical location
+----------
+
+Rule ID: SV-221561r879587
+Version: DTBC-0004
+Title: Sites ability to show pop-ups must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Chrome allows you to manage whether unwanted pop-up windows appear. Pop-up windows that are opened when the end user clicks a link are not blocked. If you enable this policy setting, most unwanted pop-up windows are prevented from appearing. If you disable this policy setting, pop-up windows are not prevented from appearing. If you disable this policy setting, scripts can continue to create pop-up windows, and pop-ups that hide other windows. Recommend configuring this setting to ‘2’ to help prevent malicious websites from controlling the pop-up windows or fooling users into clicking on the wrong window. If you do not configure this policy setting, most unwanted pop-up windows are prevented from appearing. If this policy is left not set, 'BlockPopups' will be used and the user will be able to change it. 1 = Allow all sites to show pop-ups 2 = Do not allow any site to show pop-ups
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57553
+ - V-44719
+ - CCI-000381
+Fix Ref.: F-23265r478203_fix
+Fix Text: Windows group policy:
+   1. Open the group policy editor tool with gpedit.msc   
+   2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\Content Settings\
+    Policy Name: Default popups setting
+    Policy State: Enabled
+    Policy Value: Do not allow any site to show popups
+----------
+
+Rule ID: SV-221562r879559
+Version: DTBC-0005
+Title: Extensions installation must be blocklisted by default.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Extensions are developed by third party sources and are designed to extend Google Chrome's functionality. An extension can be made by anyone, to do and access almost anything on a system; this means they pose a high risk to any system that would allow all extensions to be installed by default. Allows you to specify which extensions the users can NOT install. Extensions already installed will be removed if blocklisted. A blocklist value of '*' means all extensions are blocklisted unless they are explicitly listed in the allowlist. If this policy is left not set the user can install any extension in Google Chrome.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57561
+ - V-44727
+ - CCI-000169
+Fix Ref.: F-23266r684814_fix
+Fix Text: Windows group policy:
+ 1. Open the group policy editor tool with gpedit.msc 
+ 2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\Extensions\
+ Policy Name: Configure extension installation blocklist
+ Policy State: Enabled
+ Policy Value: *
+----------
+
+Rule ID: SV-221563r879630
+Version: DTBC-0006
+Title: Extensions that are approved for use must be allowlisted.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: The allowlist should only contain organizationally approved extensions. This is to prevent a user from accidently allowlisitng a malicious extension. This policy allows you to specify which extensions are not subject to the blacklist. A blacklist value of ‘*’ means all extensions are blacklisted and users can only install extensions listed in the allowlist. By default, no extensions are allowlisted. If all extensions have been blacklisted by policy, then the allowlist policy can be used to allow specific extensions to be installed. Administrators should determine which extensions should be allowed to be installed by their users. If no extensions are allowlisted, then no extensions can be installed when combined with blacklisting all extensions.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57563
+ - V-44729
+ - CCI-001170
+Fix Ref.: F-23267r684817_fix
+Fix Text: Windows group policy:
+1. Open the group policy editor tool with gpedit.msc 
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\Extensions\
+Policy Name: Configure extension installation allowlist
+Policy State: Enabled
+Policy Value: oiigbmnaadbkfbmpbfijlflahbdbdgdf
+
+Note: oiigbmnaadbkfbmpbfijlflahbdbdgdfis the extension ID for scriptno (a commonly used Chrome extension), other extension IDs may vary.
+----------
+
+Rule ID: SV-221564r879587
+Version: DTBC-0007
+Title: The default search providers name must be set.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Specifies the name of the default search provider that is to be used, if left empty or not set, the host name specified by the search URL will be used. This policy is only considered if the 'DefaultSearchProviderEnabled' policy is enabled. When doing internet searches it is important to use an encrypted connection via https.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57567
+ - V-44733
+ - CCI-000381
+Fix Ref.: F-23268r415820_fix
+Fix Text: Windows group policy:
+   1. Open the group policy editor tool with gpedit.msc   
+   2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\Default search provider\
+    Policy Name: Default search provider name
+    Policy State: Enabled
+    Policy Value: set to an organization approved encrypted search provider that corresponds to the encrypted search provider set in DTBC-0008(ex. Google Encrypted, Bing Encrypted)
+----------
+
+Rule ID: SV-221566r879587
+Version: DTBC-0009
+Title: Default search provider must be enabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Policy enables the use of a default search provider. If you enable this setting, a default search is performed when the user types text in the omnibox that is not a URL. You can specify the default search provider to be used by setting the rest of the default search policies. If these are left empty, the user can choose the default provider. If you disable this setting, no search is performed when the user enters non-URL text in the omnibox. If you enable or disable this setting, users cannot change or override this setting in Google Chrome. If this policy is left not set, the default search provider is enabled, and the user will be able to set the search provider list.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57571
+ - V-44737
+ - CCI-000381
+Fix Ref.: F-23270r415826_fix
+Fix Text: Windows group policy:
+   1. Open the group policy editor tool with gpedit.msc   
+   2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\Default search provider\
+    Policy Name: Enable the default search provider
+    Policy State: Enabled
+    Policy Value: N/A
+----------
+
+Rule ID: SV-221567r879587
+Version: DTBC-0011
+Title: The Password Manager must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Enables saving passwords and using saved passwords in Google Chrome. Malicious sites may take advantage of this feature by using hidden fields gain access to the stored information. If you enable this setting, users can have Google Chrome memorize passwords and provide them automatically the next time they log in to a site. If you disable this setting, users are not able to save passwords or use already saved passwords. If you enable or disable this setting, users cannot change or override this setting in Google Chrome. If this policy is left not set, this will be enabled but the user will be able to change it. ListPassword manager should not be used as it stores passwords locally.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57575
+ - V-44741
+ - CCI-000381
+Fix Ref.: F-23271r415829_fix
+Fix Text: Windows group policy:
+1. Open the group policy editor tool with gpedit.msc 
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\Password Manager\
+Policy Name: Enable Saving Passwords to the Password Manager
+Policy State: Disabled
+Policy Value: N/A
+----------
+
+Rule ID: SV-221570r879573
+Version: DTBC-0017
+Title: Background processing must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Determines whether a Google Chrome process is started on OS login that keeps running when the last browser window is closed, allowing background apps to remain active. The background process displays an icon in the system tray and can always be closed from there. If this policy is set to True, background mode is enabled and cannot be controlled by the user in the browser settings. If this policy is set to False, background mode is disabled and cannot be controlled by the user in the browser settings. If this policy is left unset, background mode is initially disabled and can be controlled by the user in the browser settings.' - Google Chrome Administrators Policy ListThis setting, if enabled, allows Google Chrome to run at all times. There is two reasons that this is not wanted. First, it can tie up system resources that might otherwise be needed. Second, it does not make it obvious to the user that it is running and poorly written extensions could cause instability on the system.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57587
+ - V-44753
+ - CCI-001695
+Fix Ref.: F-23274r415838_fix
+Fix Text: Windows group policy:
+   1. Open the group policy editor tool with gpedit.msc   
+   2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+    Policy Name: Continue running background apps when Google Chrome is closed
+    Policy State: Disabled
+    Policy Value: N/A
+----------
+
+Rule ID: SV-221571r879540
+Version: DTBC-0020
+Title: Google Data Synchronization must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Disables data synchronization in Google Chrome using Google-hosted synchronization services and prevents users from changing this setting. If you enable this setting, users cannot change or override this setting in Google Chrome. If this policy is left not set the user will be able to enable Google Sync. Google Sync is used to sync information between different user devices, this data is then stored on Google owned servers. The synced data may consist of information such as email, calendars, viewing history, etc. This feature must be disabled because the organization does not have control over the servers the data is stored on.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57593
+ - V-44759
+ - CCI-001374
+Fix Ref.: F-23275r415841_fix
+Fix Text: Windows group policy:
+   1. Open the group policy editor tool with gpedit.msc   
+   2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+    Policy Name: Disable synchronization of data with Google
+    Policy State: Enabled
+    Policy Value: N/A
+----------
+
+Rule ID: SV-221572r879587
+Version: DTBC-0021
+Title: The URL protocol schema javascript must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Each access to a URL is handled by the browser according to the URL's "scheme". The "scheme" of a URL is the section before the ":". The term "protocol" is often mistakenly used for a "scheme". The difference is that the scheme is how the browser handles a URL and the protocol is how the browser communicates with a service. If a scheme or its associated protocol used by a browser is insecure or obsolete, vulnerabilities can be exploited resulting in exposed data or unrestricted access to the browser's system. The browser must be configured to disable the use of insecure and obsolete schemas (protocols). This policy disables the listed protocol schemes in Google Chrome, URLs using a scheme from this list will not load and cannot be navigated to. If this policy is left not set or the list is empty all schemes will be accessible in Google Chrome.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57595
+ - V-44761
+ - CCI-000381
+Fix Ref.: F-23276r754414_fix
+Fix Text: Windows group policy:
+1. Open the group policy editor tool with gpedit.msc. 
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+Policy Name: Block access to a list of URLs.
+- Policy State: Enabled
+- Policy Value 1: javascript://*
+----------
+
+Rule ID: SV-221573r879540
+Version: DTBC-0023
+Title: Cloud print sharing must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Policy enables Google Chrome to act as a proxy between Google Cloud Print and legacy printers connected to the machine. If this setting is enabled or not configured, users can enable the cloud print proxy by authentication with their Google account. If this setting is disabled, users cannot enable the proxy, and the machine will not be allowed to share it’s printers with Google Cloud Print. If this policy is not set, this will be enabled but the user will be able to change it.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57599
+ - V-44765
+ - CCI-001374
+Fix Ref.: F-23277r769352_fix
+Fix Text: Windows group policy:
+ 1. Open the group policy editor tool with gpedit.msc 
+ 2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\Printing
+ Policy Name: Enable Google Cloud Print proxy
+ Policy State: Disabled
+ Policy Value: N/A
+----------
+
+Rule ID: SV-221574r879887
+Version: DTBC-0025
+Title: Network prediction must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Enables network prediction in Google Chrome and prevents users from changing this setting. If you enable or disable this setting, users cannot change or override this setting in Google Chrome. If this policy is left not set, this will be disabled but the user will be able to change it.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57603
+ - V-44769
+ - CCI-000366
+Fix Ref.: F-23278r415850_fix
+Fix Text: Windows group policy:
+1. Open the group policy editor tool with gpedit.msc
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+Policy Name: Enable network prediction
+Policy State: Enabled
+Policy Value: Do not predict network actions on any network connection
+----------
+
+Rule ID: SV-221575r879587
+Version: DTBC-0026
+Title: Metrics reporting to Google must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Enables anonymous reporting of usage and crash-related data about Google Chrome to Google and prevents users from changing this setting. If you enable this setting, anonymous reporting of usage and crash-related data is sent to Google. A crash report could contain sensitive information from the computer's memory. If you disable this setting, anonymous reporting of usage and crash-related data is never sent to Google. If you enable or disable this setting, users cannot change or override this setting in Google Chrome. If this policy is left not set the setting will be what the user chose upon installation / first run.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57605
+ - V-44771
+ - CCI-000381
+Fix Ref.: F-23279r415853_fix
+Fix Text: Windows group policy:
+   1. Open the group policy editor tool with gpedit.msc   
+   2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+    Policy Name: Enable reporting of usage and crash-related data
+    Policy State: Disabled
+    Policy Value: N/A
+----------
+
+Rule ID: SV-221576r879587
+Version: DTBC-0027
+Title: Search suggestions must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Search suggestion should be disabled as it could lead to searches being conducted that were never intended to be made. Enables search suggestions in Google Chrome's omnibox and prevents users from changing this setting. If you enable this setting, search suggestions are used. If you disable this setting, search suggestions are never used. If you enable or disable this setting, users cannot change or override this setting in Google Chrome. If this policy is left not set, this will be enabled but the user will be able to change it.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57607
+ - V-44773
+ - CCI-000381
+Fix Ref.: F-23280r415856_fix
+Fix Text: Windows group policy:
+   1. Open the group policy editor tool with gpedit.msc   
+   2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+    Policy Name: Enable search suggestions
+    Policy State: Disabled
+    Policy Value: N/A
+----------
+
+Rule ID: SV-221577r879587
+Version: DTBC-0029
+Title: Importing of saved passwords must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Importing of saved passwords should be disabled as it could lead to unencrypted account passwords stored on the system from another browser to be viewed. This policy forces the saved passwords to be imported from the previous default browser if enabled. If enabled, this policy also affects the import dialog. If disabled, the saved passwords are not imported. If it is not set, the user may be asked whether to import, or importing may happen automatically.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57609
+ - V-44775
+ - CCI-000381
+Fix Ref.: F-23281r415859_fix
+Fix Text: Windows group policy:
+   1. Open the group policy editor tool with gpedit.msc   
+   2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+   Policy Name: Import saved passwords from default browser on first run
+   Policy State: Disabled
+   Policy Value: N/A
+----------
+
+Rule ID: SV-221578r879554
+Version: DTBC-0030
+Title: Incognito mode must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Incognito mode allows the user to browse the Internet without recording their browsing history/activity. From a forensics perspective, this is unacceptable. Best practice requires that browser history is retained. The "IncognitoModeAvailability" setting controls whether the user may utilize Incognito mode in Google Chrome. If 'Enabled' is selected or the policy is left unset, pages may be opened in Incognito mode. If 'Disabled' is selected, pages may not be opened in Incognito mode. If 'Forced' is selected, pages may be opened ONLY in Incognito mode. 0 = Incognito mode available. 1 = Incognito mode disabled. 2 = Incognito mode forced.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57611
+ - V-44777
+ - CCI-000166
+Fix Ref.: F-23282r415862_fix
+Fix Text: Windows group policy:
+   1. Open the group policy editor tool with gpedit.msc   
+   2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+    Policy Name: Incognito mode availability
+    Policy State: Enabled
+    Policy Value: Incognito mode disabled
+----------
+
+Rule ID: SV-221579r879897
+Version: DTBC-0037
+Title: Online revocation checks must be performed.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: By setting this policy to true, the previous behavior is restored and online OCSP/CRL checks will be performed. If the policy is not set, or is set to false, then Chrome will not perform online revocation checks. Certificates are revoked when they have been compromised or are no longer valid, and this option protects users from submitting confidential data to a site that may be fraudulent or not secure.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57623
+ - V-44789
+ - CCI-000185
+Fix Ref.: F-23283r769354_fix
+Fix Text: Windows group policy:
+ 1. Open the group policy editor tool with gpedit.msc 
+ 2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+ Policy Name: Enable online OCSP/CRL checks
+ Policy State: Enabled
+ Policy Value: N/A
+----------
+
+Rule ID: SV-221580r879627
+Version: DTBC-0038
+Title: Safe Browsing must be enabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Allows you to control whether Google Chrome's Safe Browsing feature is enabled and the mode it operates in. If this policy is set to 'NoProtection' (value 0), Safe Browsing is never active. If this policy is set to 'StandardProtection' (value 1, which is the default), Safe Browsing is always active in the standard mode. If this policy is set to 'EnhancedProtection' (value 2), Safe Browsing is always active in the enhanced mode, which provides better security, but requires sharing more browsing information with Google.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57625
+ - V-44791
+ - CCI-001166
+Fix Ref.: F-23284r862942_fix
+Fix Text: Windows group policy:
+ 1. Open the “group policy editor” tool with gpedit.msc
+ 2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\Safe Browsing Settings
+ Policy Name: Safe Browsing Protection Level
+ Policy State: Enabled
+ Policy Value: "(1) Safe Browsing is active in the standard mode", or "(2) Safe Browsing is active in the enhanced mode. This mode provides better security, but requires sharing more browsing information with Google".
+----------
+
+Rule ID: SV-221581r879642
+Version: DTBC-0039
+Title: Browser history must be saved.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: This policy disables saving browser history in Google Chrome and prevents users from changing this setting. If this setting is enabled, browsing history is not saved. If this setting is disabled or not set, browsing history is saved.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57627
+ - V-44793
+ - CCI-001199
+Fix Ref.: F-23285r415871_fix
+Fix Text: Windows group policy:
+   1. Open the group policy editor tool with gpedit.msc   
+   2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+    Policy Name: Disable saving browser history
+    Policy State: Disabled
+    Policy Value:  N/A
+----------
+
+Rule ID: SV-221586r879559
+Version: DTBC-0052
+Title: Deletion of browser history must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Disabling this function will prevent users from deleting their browsing history, which could be used to identify malicious websites and files that could later be used for anti-virus and Intrusion Detection System (IDS) signatures. Furthermore, preventing users from deleting browsing history could be used to identify abusive web surfing on government systems.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-89845
+ - V-75165
+ - CCI-000169
+Fix Ref.: F-23290r415886_fix
+Fix Text: Windows group policy:
+ 1. Open the group policy editor tool with gpedit.msc 
+ 2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+ Policy Name: Enable deleting browser and download history
+ Policy State: Disabled
+ Policy Value: N/A
+----------
+
+Rule ID: SV-221587r879559
+Version: DTBC-0053
+Title: Prompt for download location must be enabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: If the policy is enabled, the user will be asked where to save each file before downloading. If the policy is disabled, downloads will start immediately, and the user will not be asked where to save the file. If the policy is not configured, the user will be able to change this setting.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-94633
+ - V-79929
+ - CCI-000169
+Fix Ref.: F-23291r415889_fix
+Fix Text: Windows group policy:
+1. Open the group policy editor tool with gpedit.msc
+2. Navigate to Policy Path:  Computer Configuration\Administrative Templates\Google\Google Chrome\
+ Policy Name: Ask where to save each file before downloading
+ Policy State:  Enabled
+ Policy Value: N/A
+----------
+
+Rule ID: SV-221588r879559
+Version: DTBC-0055
+Title: Download restrictions must be configured.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Configure the type of downloads that Google Chrome will completely block, without letting users override the security decision. If you set this policy, Google Chrome will prevent certain types of downloads, and will not let user bypass the security warnings. When the "Block dangerous downloads" option is chosen, all downloads are allowed, except for those that carry SafeBrowsing warnings. When the "Block potentially dangerous downloads" option is chosen, all downloads allowed, except for those that carry SafeBrowsing warnings of potentially dangerous downloads. When the "Block all downloads" option is chosen, all downloads are blocked. When this policy is not set, (or the "No special restrictions" option is chosen), the downloads will go through the usual security restrictions based on SafeBrowsing analysis results. Note that these restrictions apply to downloads triggered from web page content, as well as the 'download link...' context menu option. These restrictions do not apply to the save / download of the currently displayed page, nor does it apply to saving as PDF from the printing options. See https://developers.google.com/safe-browsing for more info on SafeBrowsing. 0 = No special restrictions 1 = Block dangerous downloads 2 = Block potentially dangerous downloads 3 = Block all downloads
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-94635
+ - V-79931
+ - CCI-000169
+Fix Ref.: F-23292r415892_fix
+Fix Text: If the system is on the SIPRNet, this requirement is NA.
+Windows group policy:
+1. Open the group policy editor tool with gpedit.msc
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+Policy Name: Allow download restrictions
+Policy State: 1 or 2
+Policy Value: N/A
+----------
+
+Rule ID: SV-221590r879627
+Version: DTBC-0057
+Title: Safe Browsing Extended Reporting must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Enables Google Chrome's Safe Browsing Extended Reporting and prevents users from changing this setting. Extended Reporting sends some system information and page content to Google servers to help detect dangerous apps and sites. If the setting is set to "True", then reports will be created and sent whenever necessary (such as when a security interstitial is shown). If the setting is set to "False", reports will never be sent. If this policy is set to "True" or "False", the user will not be able to modify the setting. If this policy is left unset, the user will be able to change the setting and decide whether to send reports or not.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-96299
+ - V-81585
+ - CCI-001166
+Fix Ref.: F-23294r415898_fix
+Fix Text: Windows group policy:
+1. Open the “group policy editor” tool with gpedit.msc
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\Safe Browsing settings\
+Policy Name: Enable Safe Browsing Extended Reporting
+Policy State: Disabled
+Policy Value: N/A
+----------
+
+Rule ID: SV-221591r879587
+Version: DTBC-0058
+Title: WebUSB must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Allows you to set whether websites are allowed to get access to connected USB devices. Access can be completely blocked, or the user can be asked every time a website wants to get access to connected USB devices. If this policy is left not set, ”3” will be used, and the user will be able to change it. 2 = Do not allow any site to request access to USB devices via the WebUSB API 3 = Allow sites to ask the user to grant access to a connected USB device
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-96301
+ - V-81587
+ - CCI-000381
+Fix Ref.: F-23295r415901_fix
+Fix Text: Windows group policy:
+ 1. Open the “group policy editor” tool with gpedit.msc
+ 2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\Content Settings
+ Policy Name: Control use of the WebUSB API
+ Policy State: Enabled
+ Policy Value: 2
+----------
+
+Rule ID: SV-221592r879559
+Version: DTBC-0060
+Title: Chrome Cleanup must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: If set to "False", prevents Chrome Cleanup from scanning the system for unwanted software and performing cleanups. Manually triggering Chrome Cleanup from chrome://settings/cleanup is disabled. If set to "True" or unset, Chrome Cleanup periodically scans the system for unwanted software and should any be found, will ask the user if they wish to remove it. Manually triggering Chrome Cleanup from chrome://settings is enabled. This policy is available only on Windows instances that are joined to a Microsoft Active Directory domain.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-96305
+ - V-81591
+ - CCI-000169
+Fix Ref.: F-23296r878034_fix
+Fix Text: Windows group policy:
+1. Open the "group policy editor" tool with gpedit.msc.
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome
+Policy Name: Enable Chrome Cleanup on Windows
+Policy State: Disabled
+Policy Value: N/A
+----------
+
+Rule ID: SV-221593r879559
+Version: DTBC-0061
+Title: Chrome Cleanup reporting must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: If unset, should Chrome Cleanup detect unwanted software, it may report metadata about the scan to Google in accordance with policy set by “SafeBrowsingExtendedReportingEnabled”. Chrome Cleanup will then ask the user if they wish to clean up the unwanted software. The user can choose to share results of the cleanup with Google to assist with future unwanted software detection. These results contain file metadata and registry keys as described by the Chrome Privacy Whitepaper. If set to “false”, should Chrome Cleanup detect unwanted software, it will not report metadata about the scan to Google, overriding any policy set by “SafeBrowsingExtendedReportingEnabled”. Chrome Cleanup will ask the user if they wish to clean up the unwanted software. Results of the cleanup will not be reported to Google and the user will not have the option to do so. If set to “true”, should Chrome Cleanup detect unwanted software, it may report metadata about the scan to Google in accordance with policy set by “SafeBrowsingExtendedReportingEnabled”. Chrome Cleanup will ask the user if they wish to clean up the unwanted software. Results of the cleanup will be reported to Google and the user will not have the option to prevent it. This policy is available only on Windows instances that are joined to a Microsoft Active Directory domain.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-96307
+ - V-81593
+ - CCI-000169
+Fix Ref.: F-23297r415907_fix
+Fix Text: Windows group policy:
+1. Open the “group policy editor” tool with gpedit.msc
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome
+Policy Name: Control how Chrome Cleanup reports data to Google
+Policy State: Disabled
+Policy Value: N/A
+----------
+
+Rule ID: SV-221594r879587
+Version: DTBC-0063
+Title: Google Cast must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: If this policy is set to ”True” or is not set, Google Cast will be enabled, and users will be able to launch it from the app menu, page context menus, media controls on Cast-enabled websites, and (if shown) the “Cast toolbar” icon. If this policy set to ”False”, Google Cast will be disabled.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-96311
+ - V-81597
+ - CCI-000381
+Fix Ref.: F-23298r415910_fix
+Fix Text: Windows group policy:
+1. Open the “group policy editor” tool with gpedit.msc
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\Google Cast
+Policy Name: Enable Google Cast
+Policy State: Disabled
+Policy Value: N/A
+----------
+
+Rule ID: SV-221595r879587
+Version: DTBC-0064
+Title: Autoplay must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: This allows a user to control if videos can play automatically with audio content (without user consent) in Google Chrome. If the policy is set to "True", Google Chrome is allowed to autoplay media. If the policy is set to "False", Google Chrome is not allowed to autoplay media. The "AutoplayAllowlist" policy can be used to override this for certain URL patterns. By default, Google Chrome is not allowed to autoplay media. The "AutoplayAllowlist" policy can be used to override this for certain URL patterns.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-96295
+ - V-81581
+ - CCI-000381
+Fix Ref.: F-23299r415913_fix
+Fix Text: Windows group policy:
+1. Open the “group policy editor” tool with gpedit.msc
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+Policy Name: Allow media autoplay
+Policy State: Disabled
+Policy Value: N/A
+----------
+
+Rule ID: SV-221597r879627
+Version: DTBC-0066
+Title: Anonymized data collection must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Enable URL-keyed anonymized data collection in Google Chrome and prevent users from changing this setting. URL-keyed anonymized data collection sends URLs of pages the user visits to Google to make searches and browsing better. If you enable this policy, URL-keyed anonymized data collection is always active. If you disable this policy, URL-keyed anonymized data collection is never active. If this policy is left not set, URL-keyed anonymized data collection will be enabled but the user will be able to change it.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-101303
+ - V-91203
+ - CCI-001166
+Fix Ref.: F-23301r415919_fix
+Fix Text: Windows group policy:
+1. Open the group policy editor tool with gpedit.msc
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+Policy Name: Enable URL-keyed anonymized data collection
+Policy State: Disabled
+Policy Value: NA
+----------
+
+Rule ID: SV-221598r879627
+Version: DTBC-0067
+Title: Collection of WebRTC event logs must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: If the policy is set to “true”, Google Chrome is allowed to collect WebRTC event logs from Google services (e.g., Google Meet), and upload those logs to Google. If the policy is set to “false”, or is unset, Google Chrome may not collect nor upload such logs. These logs contain diagnostic information helpful when debugging issues with audio or video calls in Chrome, such as the time and size of sent and received RTP packets, feedback about congestion on the network, and metadata about time and quality of audio and video frames. These logs do not contain audio or video contents from the call. This data collection by Chrome can only be triggered by Google's web services, such as Google Hangouts or Google Meet.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-101305
+ - V-91205
+ - CCI-001166
+Fix Ref.: F-23302r415922_fix
+Fix Text: Windows group policy:
+1. Open the group policy editor tool with gpedit.msc
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+Policy Name: Allow collection of WebRTC event logs from Google services
+Policy State: Disabled
+Policy Value: NA
+----------
+
+Rule ID: SV-221599r879655
+Version: DTBC-0068
+Title: Chrome development tools must be disabled.
+Weight: 10.0
+Severity: low
+Description:
+ - VulnDiscussion: While the risk associated with browser development tools is more related to the proper design of a web application, a risk vector remains within the browser. The developer tools allow end users and application developers to view and edit all types of web application related data via the browser. Page elements, source code, javascript, API calls, application data, etc. may all be viewed and potentially manipulated. Manipulation could be useful for troubleshooting legitimate issues, and this may be performed in a development environment. Manipulation could also be malicious and must be addressed.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-106629
+ - V-97525
+ - CCI-001312
+Fix Ref.: F-23303r478215_fix
+Fix Text: Windows group policy:
+1. Open the "group policy editor" tool with gpedit.msc 
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome
+Policy Name: Control where Developer Tools can be used
+Policy State: Enabled
+Policy Value: Disallow usage of the Developer Tools
+----------
+
+Rule ID: SV-226401r879627
+Version: DTBC-0069
+Title: Guest Mode must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: If this policy is set to true or not configured, Google Chrome will enable guest logins. Guest logins are Google Chrome profiles where all windows are in incognito mode. If this policy is set to false, Google Chrome will not allow guest profiles to be started.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-111829
+ - V-102867
+ - CCI-001166
+Fix Ref.: F-28097r478218_fix
+Fix Text: Windows group policy:
+1. Open the "group policy editor" tool with gpedit.msc 
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+Policy Name: Enable guest mode in browser
+Policy State: Disabled
+----------
+
+Rule ID: SV-226402r879627
+Version: DTBC-0070
+Title: AutoFill for credit cards must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Enabling Google Chrome's AutoFill feature allows users to auto complete credit card information in web forms using previously stored information. If this setting is disabled, Autofill will never suggest or fill credit card information, nor will it save additional credit card information that the user might submit while browsing the web. If this setting is enabled or has no value, the user will be able to control Autofill for credit cards in the UI.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-111831
+ - V-102869
+ - CCI-001166
+Fix Ref.: F-28098r478221_fix
+Fix Text: Windows group policy:
+1. Open the "group policy editor" tool with gpedit.msc 
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+Policy Name: Enable AutoFill for credit cards
+Policy State: Disabled
+----------
+
+Rule ID: SV-226403r879627
+Version: DTBC-0071
+Title: AutoFill for addresses must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Enabling Google Chrome's AutoFill feature allows users to auto complete address information in web forms using previously stored information. If this setting is disabled, Autofill will never suggest or fill address information, nor will it save additional address information that the user might submit while browsing the web. If this setting is enabled or has no value, the user will be able to control Autofill for addresses in the UI.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-111833
+ - V-102871
+ - CCI-001166
+Fix Ref.: F-28099r478224_fix
+Fix Text: Windows group policy:
+1. Open the "group policy editor" tool with gpedit.msc 
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+Policy Name: Enable AutoFill for addresses
+Policy State: Disabled
+----------
+
+Rule ID: SV-226404r879627
+Version: DTBC-0072
+Title: Import AutoFill form data must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: This policy forces the autofill form data to be imported from the previous default browser if enabled. If enabled, this policy also affects the import dialog. If disabled, the autofill form data is not imported. If it is not set, the user may be asked whether to import, or importing may happen automatically.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-111835
+ - V-102873
+ - CCI-001166
+Fix Ref.: F-28100r478227_fix
+Fix Text: Windows group policy:
+1. Open the "group policy editor" tool with gpedit.msc 
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+Policy Name: Import autofill form data from default browser on first run
+Policy State: Disabled
+----------
+
+Rule ID: SV-245538r879756
+Version: DTBC-0074
+Title: Use of the QUIC protocol must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: QUIC is used by more than half of all connections from the Chrome web browser to Google's servers, and this activity is undesirable in the DoD. Setting the policy to Enabled or leaving it unset allows the use of QUIC protocol in Google Chrome. Setting the policy to Disabled disallows the use of QUIC protocol.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - CCI-001762
+Fix Ref.: F-48769r808523_fix
+Fix Text: Windows group policy:
+1. Open the “group policy editor” tool with gpedit.msc.
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google Chrome.
+- Policy Name: Allow QUIC protocol
+- Policy State: Disabled
+- Policy Value: N/A
+----------
+
+Rule ID: SV-245539r940013
+Version: DTBC-0045
+Title: Session only based cookies must be enabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Cookies must only be allowed per session and only for approved URLs as permanently stored cookies can be used for malicious intent. Approved URLs may be allowlisted via the CookiesAllowedForUrls policy setting, but is not a requirement.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - CCI-000166
+Fix Ref.: F-23287r940012_fix
+Fix Text: Windows group policy:
+1. Open the group policy editor tool with gpedit.msc 
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\Content Settings.
+- Policy Name: Default cookies setting
+- Policy State: Enabled
+- Policy Value: Keep cookies for the duration of the session
+----------
+
+DEFINITIONS:

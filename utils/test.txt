@@ -1,0 +1,2675 @@
+           __     _                                                    __    __              
+   _____  / /_   (_)   ____ _         __  __   ____    _____  ____    / /   / /  ___    _____
+  / ___/ / __/  / /   / __ `/        / / / /  / __ \  / ___/ / __ \  / /   / /  / _ \  / ___/
+ (__  ) / /_   / /   / /_/ /        / /_/ /  / / / / / /    / /_/ / / /   / /  /  __/ / /    
+/____/  \__/  /_/    \__, /         \__,_/  /_/ /_/ /_/     \____/ /_/   /_/   \___/ /_/     
+                    /____/                                                                   
+
+                          __                  _          
+ _ _   __ _  _ __   ___  / _|___   _ _  _  _ | | ___  ___
+| ' \ / _` || '  \ / -_) > _|_ _| | '_|| || || |/ -_)(_-<
+|_||_|\__,_||_|_|_|\___| \_____|  |_|   \_,_||_|\___|/__/
+                                                         
+
+Google Chrome Current Windows STIG SCAP Benchmark
+
+This Security Technical Implementation Guide is published as a tool to improve the security of Department of Defense (DOD) information systems. The requirements are derived from the National Institute of Standards and Technology (NIST) 800-53 and related documents. Comments or proposed revisions to this document should be sent via email to the following address: disa.stig_spt@mail.mil.
+
+Rule ID: SV-221558r879534
+Version: DTBC-0001
+Title: Firewall traversal from remote host must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Remote connections should never be allowed that bypass the firewall, as there is no way to verify if they can be trusted. Enables usage of STUN and relay servers when remote clients are trying to establish a connection to this machine. If this setting is enabled, then remote clients can discover and connect to this machine even if they are separated by a firewall. If this setting is disabled and outgoing UDP connections are filtered by the firewall, then this machine will only allow connections from client machines within the local network. If this policy is left not set the setting will be enabled.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57545
+ - V-44711
+ - CCI-001414
+Fix Ref.: F-23262r769350_fix
+Fix Text: Windows group policy:
+ 1. Open the group policy editor tool with gpedit.msc 
+ 2. Navigate to Policy Path: Computer Configuration\Administrative\Templates\Google\Google Chrome\Remote Access
+ Policy Name: Enable firewall traversal from remote access host
+ Policy State: Disabled
+ Policy Value: N/A
+----------
+
+Rule ID: SV-221559r879627
+Version: DTBC-0002
+Title: Site tracking users location must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Website tracking is the practice of gathering information as to which websites were accesses by a browser. The common method of doing this is to have a website create a tracking cookie on the browser. If the information of what sites are being accessed is made available to unauthorized persons, this violates confidentiality requirements, and over time poses a significant OPSEC issue. This policy setting allows you to set whether websites are allowed to track the user’s physical location. Tracking the user’s physical location can be allowed by default, denied by default or the user can be asked every time a website requests the physical location. 1 = Allow sites to track the user’s physical location 2 = Do not allow any site to track the user’s physical location 3 = Ask whenever a site wants to track the user’s physical location
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57557
+ - V-44723
+ - CCI-001166
+Fix Ref.: F-23263r478200_fix
+Fix Text: Windows group policy:    
+   1. Open the group policy editor tool with gpedit.msc   
+   2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\Content Settings\    
+   Policy Name: Default geolocation setting    
+   Policy State: Enabled    
+   Policy Value: Do not allow any site to track the users' physical location
+----------
+
+Rule ID: SV-221561r879587
+Version: DTBC-0004
+Title: Sites ability to show pop-ups must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Chrome allows you to manage whether unwanted pop-up windows appear. Pop-up windows that are opened when the end user clicks a link are not blocked. If you enable this policy setting, most unwanted pop-up windows are prevented from appearing. If you disable this policy setting, pop-up windows are not prevented from appearing. If you disable this policy setting, scripts can continue to create pop-up windows, and pop-ups that hide other windows. Recommend configuring this setting to ‘2’ to help prevent malicious websites from controlling the pop-up windows or fooling users into clicking on the wrong window. If you do not configure this policy setting, most unwanted pop-up windows are prevented from appearing. If this policy is left not set, 'BlockPopups' will be used and the user will be able to change it. 1 = Allow all sites to show pop-ups 2 = Do not allow any site to show pop-ups
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57553
+ - V-44719
+ - CCI-000381
+Fix Ref.: F-23265r478203_fix
+Fix Text: Windows group policy:
+   1. Open the group policy editor tool with gpedit.msc   
+   2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\Content Settings\
+    Policy Name: Default popups setting
+    Policy State: Enabled
+    Policy Value: Do not allow any site to show popups
+----------
+
+Rule ID: SV-221562r879559
+Version: DTBC-0005
+Title: Extensions installation must be blocklisted by default.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Extensions are developed by third party sources and are designed to extend Google Chrome's functionality. An extension can be made by anyone, to do and access almost anything on a system; this means they pose a high risk to any system that would allow all extensions to be installed by default. Allows you to specify which extensions the users can NOT install. Extensions already installed will be removed if blocklisted. A blocklist value of '*' means all extensions are blocklisted unless they are explicitly listed in the allowlist. If this policy is left not set the user can install any extension in Google Chrome.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57561
+ - V-44727
+ - CCI-000169
+Fix Ref.: F-23266r684814_fix
+Fix Text: Windows group policy:
+ 1. Open the group policy editor tool with gpedit.msc 
+ 2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\Extensions\
+ Policy Name: Configure extension installation blocklist
+ Policy State: Enabled
+ Policy Value: *
+----------
+
+Rule ID: SV-221563r879630
+Version: DTBC-0006
+Title: Extensions that are approved for use must be allowlisted.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: The allowlist should only contain organizationally approved extensions. This is to prevent a user from accidently allowlisitng a malicious extension. This policy allows you to specify which extensions are not subject to the blacklist. A blacklist value of ‘*’ means all extensions are blacklisted and users can only install extensions listed in the allowlist. By default, no extensions are allowlisted. If all extensions have been blacklisted by policy, then the allowlist policy can be used to allow specific extensions to be installed. Administrators should determine which extensions should be allowed to be installed by their users. If no extensions are allowlisted, then no extensions can be installed when combined with blacklisting all extensions.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57563
+ - V-44729
+ - CCI-001170
+Fix Ref.: F-23267r684817_fix
+Fix Text: Windows group policy:
+1. Open the group policy editor tool with gpedit.msc 
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\Extensions\
+Policy Name: Configure extension installation allowlist
+Policy State: Enabled
+Policy Value: oiigbmnaadbkfbmpbfijlflahbdbdgdf
+
+Note: oiigbmnaadbkfbmpbfijlflahbdbdgdfis the extension ID for scriptno (a commonly used Chrome extension), other extension IDs may vary.
+----------
+
+Rule ID: SV-221564r879587
+Version: DTBC-0007
+Title: The default search providers name must be set.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Specifies the name of the default search provider that is to be used, if left empty or not set, the host name specified by the search URL will be used. This policy is only considered if the 'DefaultSearchProviderEnabled' policy is enabled. When doing internet searches it is important to use an encrypted connection via https.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57567
+ - V-44733
+ - CCI-000381
+Fix Ref.: F-23268r415820_fix
+Fix Text: Windows group policy:
+   1. Open the group policy editor tool with gpedit.msc   
+   2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\Default search provider\
+    Policy Name: Default search provider name
+    Policy State: Enabled
+    Policy Value: set to an organization approved encrypted search provider that corresponds to the encrypted search provider set in DTBC-0008(ex. Google Encrypted, Bing Encrypted)
+----------
+
+Rule ID: SV-221566r879587
+Version: DTBC-0009
+Title: Default search provider must be enabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Policy enables the use of a default search provider. If you enable this setting, a default search is performed when the user types text in the omnibox that is not a URL. You can specify the default search provider to be used by setting the rest of the default search policies. If these are left empty, the user can choose the default provider. If you disable this setting, no search is performed when the user enters non-URL text in the omnibox. If you enable or disable this setting, users cannot change or override this setting in Google Chrome. If this policy is left not set, the default search provider is enabled, and the user will be able to set the search provider list.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57571
+ - V-44737
+ - CCI-000381
+Fix Ref.: F-23270r415826_fix
+Fix Text: Windows group policy:
+   1. Open the group policy editor tool with gpedit.msc   
+   2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\Default search provider\
+    Policy Name: Enable the default search provider
+    Policy State: Enabled
+    Policy Value: N/A
+----------
+
+Rule ID: SV-221567r879587
+Version: DTBC-0011
+Title: The Password Manager must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Enables saving passwords and using saved passwords in Google Chrome. Malicious sites may take advantage of this feature by using hidden fields gain access to the stored information. If you enable this setting, users can have Google Chrome memorize passwords and provide them automatically the next time they log in to a site. If you disable this setting, users are not able to save passwords or use already saved passwords. If you enable or disable this setting, users cannot change or override this setting in Google Chrome. If this policy is left not set, this will be enabled but the user will be able to change it. ListPassword manager should not be used as it stores passwords locally.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57575
+ - V-44741
+ - CCI-000381
+Fix Ref.: F-23271r415829_fix
+Fix Text: Windows group policy:
+1. Open the group policy editor tool with gpedit.msc 
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\Password Manager\
+Policy Name: Enable Saving Passwords to the Password Manager
+Policy State: Disabled
+Policy Value: N/A
+----------
+
+Rule ID: SV-221570r879573
+Version: DTBC-0017
+Title: Background processing must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Determines whether a Google Chrome process is started on OS login that keeps running when the last browser window is closed, allowing background apps to remain active. The background process displays an icon in the system tray and can always be closed from there. If this policy is set to True, background mode is enabled and cannot be controlled by the user in the browser settings. If this policy is set to False, background mode is disabled and cannot be controlled by the user in the browser settings. If this policy is left unset, background mode is initially disabled and can be controlled by the user in the browser settings.' - Google Chrome Administrators Policy ListThis setting, if enabled, allows Google Chrome to run at all times. There is two reasons that this is not wanted. First, it can tie up system resources that might otherwise be needed. Second, it does not make it obvious to the user that it is running and poorly written extensions could cause instability on the system.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57587
+ - V-44753
+ - CCI-001695
+Fix Ref.: F-23274r415838_fix
+Fix Text: Windows group policy:
+   1. Open the group policy editor tool with gpedit.msc   
+   2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+    Policy Name: Continue running background apps when Google Chrome is closed
+    Policy State: Disabled
+    Policy Value: N/A
+----------
+
+Rule ID: SV-221571r879540
+Version: DTBC-0020
+Title: Google Data Synchronization must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Disables data synchronization in Google Chrome using Google-hosted synchronization services and prevents users from changing this setting. If you enable this setting, users cannot change or override this setting in Google Chrome. If this policy is left not set the user will be able to enable Google Sync. Google Sync is used to sync information between different user devices, this data is then stored on Google owned servers. The synced data may consist of information such as email, calendars, viewing history, etc. This feature must be disabled because the organization does not have control over the servers the data is stored on.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57593
+ - V-44759
+ - CCI-001374
+Fix Ref.: F-23275r415841_fix
+Fix Text: Windows group policy:
+   1. Open the group policy editor tool with gpedit.msc   
+   2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+    Policy Name: Disable synchronization of data with Google
+    Policy State: Enabled
+    Policy Value: N/A
+----------
+
+Rule ID: SV-221572r879587
+Version: DTBC-0021
+Title: The URL protocol schema javascript must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Each access to a URL is handled by the browser according to the URL's "scheme". The "scheme" of a URL is the section before the ":". The term "protocol" is often mistakenly used for a "scheme". The difference is that the scheme is how the browser handles a URL and the protocol is how the browser communicates with a service. If a scheme or its associated protocol used by a browser is insecure or obsolete, vulnerabilities can be exploited resulting in exposed data or unrestricted access to the browser's system. The browser must be configured to disable the use of insecure and obsolete schemas (protocols). This policy disables the listed protocol schemes in Google Chrome, URLs using a scheme from this list will not load and cannot be navigated to. If this policy is left not set or the list is empty all schemes will be accessible in Google Chrome.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57595
+ - V-44761
+ - CCI-000381
+Fix Ref.: F-23276r754414_fix
+Fix Text: Windows group policy:
+1. Open the group policy editor tool with gpedit.msc. 
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+Policy Name: Block access to a list of URLs.
+- Policy State: Enabled
+- Policy Value 1: javascript://*
+----------
+
+Rule ID: SV-221573r879540
+Version: DTBC-0023
+Title: Cloud print sharing must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Policy enables Google Chrome to act as a proxy between Google Cloud Print and legacy printers connected to the machine. If this setting is enabled or not configured, users can enable the cloud print proxy by authentication with their Google account. If this setting is disabled, users cannot enable the proxy, and the machine will not be allowed to share it’s printers with Google Cloud Print. If this policy is not set, this will be enabled but the user will be able to change it.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57599
+ - V-44765
+ - CCI-001374
+Fix Ref.: F-23277r769352_fix
+Fix Text: Windows group policy:
+ 1. Open the group policy editor tool with gpedit.msc 
+ 2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\Printing
+ Policy Name: Enable Google Cloud Print proxy
+ Policy State: Disabled
+ Policy Value: N/A
+----------
+
+Rule ID: SV-221574r879887
+Version: DTBC-0025
+Title: Network prediction must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Enables network prediction in Google Chrome and prevents users from changing this setting. If you enable or disable this setting, users cannot change or override this setting in Google Chrome. If this policy is left not set, this will be disabled but the user will be able to change it.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57603
+ - V-44769
+ - CCI-000366
+Fix Ref.: F-23278r415850_fix
+Fix Text: Windows group policy:
+1. Open the group policy editor tool with gpedit.msc
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+Policy Name: Enable network prediction
+Policy State: Enabled
+Policy Value: Do not predict network actions on any network connection
+----------
+
+Rule ID: SV-221575r879587
+Version: DTBC-0026
+Title: Metrics reporting to Google must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Enables anonymous reporting of usage and crash-related data about Google Chrome to Google and prevents users from changing this setting. If you enable this setting, anonymous reporting of usage and crash-related data is sent to Google. A crash report could contain sensitive information from the computer's memory. If you disable this setting, anonymous reporting of usage and crash-related data is never sent to Google. If you enable or disable this setting, users cannot change or override this setting in Google Chrome. If this policy is left not set the setting will be what the user chose upon installation / first run.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57605
+ - V-44771
+ - CCI-000381
+Fix Ref.: F-23279r415853_fix
+Fix Text: Windows group policy:
+   1. Open the group policy editor tool with gpedit.msc   
+   2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+    Policy Name: Enable reporting of usage and crash-related data
+    Policy State: Disabled
+    Policy Value: N/A
+----------
+
+Rule ID: SV-221576r879587
+Version: DTBC-0027
+Title: Search suggestions must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Search suggestion should be disabled as it could lead to searches being conducted that were never intended to be made. Enables search suggestions in Google Chrome's omnibox and prevents users from changing this setting. If you enable this setting, search suggestions are used. If you disable this setting, search suggestions are never used. If you enable or disable this setting, users cannot change or override this setting in Google Chrome. If this policy is left not set, this will be enabled but the user will be able to change it.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57607
+ - V-44773
+ - CCI-000381
+Fix Ref.: F-23280r415856_fix
+Fix Text: Windows group policy:
+   1. Open the group policy editor tool with gpedit.msc   
+   2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+    Policy Name: Enable search suggestions
+    Policy State: Disabled
+    Policy Value: N/A
+----------
+
+Rule ID: SV-221577r879587
+Version: DTBC-0029
+Title: Importing of saved passwords must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Importing of saved passwords should be disabled as it could lead to unencrypted account passwords stored on the system from another browser to be viewed. This policy forces the saved passwords to be imported from the previous default browser if enabled. If enabled, this policy also affects the import dialog. If disabled, the saved passwords are not imported. If it is not set, the user may be asked whether to import, or importing may happen automatically.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57609
+ - V-44775
+ - CCI-000381
+Fix Ref.: F-23281r415859_fix
+Fix Text: Windows group policy:
+   1. Open the group policy editor tool with gpedit.msc   
+   2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+   Policy Name: Import saved passwords from default browser on first run
+   Policy State: Disabled
+   Policy Value: N/A
+----------
+
+Rule ID: SV-221578r879554
+Version: DTBC-0030
+Title: Incognito mode must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Incognito mode allows the user to browse the Internet without recording their browsing history/activity. From a forensics perspective, this is unacceptable. Best practice requires that browser history is retained. The "IncognitoModeAvailability" setting controls whether the user may utilize Incognito mode in Google Chrome. If 'Enabled' is selected or the policy is left unset, pages may be opened in Incognito mode. If 'Disabled' is selected, pages may not be opened in Incognito mode. If 'Forced' is selected, pages may be opened ONLY in Incognito mode. 0 = Incognito mode available. 1 = Incognito mode disabled. 2 = Incognito mode forced.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57611
+ - V-44777
+ - CCI-000166
+Fix Ref.: F-23282r415862_fix
+Fix Text: Windows group policy:
+   1. Open the group policy editor tool with gpedit.msc   
+   2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+    Policy Name: Incognito mode availability
+    Policy State: Enabled
+    Policy Value: Incognito mode disabled
+----------
+
+Rule ID: SV-221579r879897
+Version: DTBC-0037
+Title: Online revocation checks must be performed.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: By setting this policy to true, the previous behavior is restored and online OCSP/CRL checks will be performed. If the policy is not set, or is set to false, then Chrome will not perform online revocation checks. Certificates are revoked when they have been compromised or are no longer valid, and this option protects users from submitting confidential data to a site that may be fraudulent or not secure.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57623
+ - V-44789
+ - CCI-000185
+Fix Ref.: F-23283r769354_fix
+Fix Text: Windows group policy:
+ 1. Open the group policy editor tool with gpedit.msc 
+ 2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+ Policy Name: Enable online OCSP/CRL checks
+ Policy State: Enabled
+ Policy Value: N/A
+----------
+
+Rule ID: SV-221580r879627
+Version: DTBC-0038
+Title: Safe Browsing must be enabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Allows you to control whether Google Chrome's Safe Browsing feature is enabled and the mode it operates in. If this policy is set to 'NoProtection' (value 0), Safe Browsing is never active. If this policy is set to 'StandardProtection' (value 1, which is the default), Safe Browsing is always active in the standard mode. If this policy is set to 'EnhancedProtection' (value 2), Safe Browsing is always active in the enhanced mode, which provides better security, but requires sharing more browsing information with Google.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57625
+ - V-44791
+ - CCI-001166
+Fix Ref.: F-23284r862942_fix
+Fix Text: Windows group policy:
+ 1. Open the “group policy editor” tool with gpedit.msc
+ 2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\Safe Browsing Settings
+ Policy Name: Safe Browsing Protection Level
+ Policy State: Enabled
+ Policy Value: "(1) Safe Browsing is active in the standard mode", or "(2) Safe Browsing is active in the enhanced mode. This mode provides better security, but requires sharing more browsing information with Google".
+----------
+
+Rule ID: SV-221581r879642
+Version: DTBC-0039
+Title: Browser history must be saved.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: This policy disables saving browser history in Google Chrome and prevents users from changing this setting. If this setting is enabled, browsing history is not saved. If this setting is disabled or not set, browsing history is saved.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-57627
+ - V-44793
+ - CCI-001199
+Fix Ref.: F-23285r415871_fix
+Fix Text: Windows group policy:
+   1. Open the group policy editor tool with gpedit.msc   
+   2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+    Policy Name: Disable saving browser history
+    Policy State: Disabled
+    Policy Value:  N/A
+----------
+
+Rule ID: SV-221586r879559
+Version: DTBC-0052
+Title: Deletion of browser history must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Disabling this function will prevent users from deleting their browsing history, which could be used to identify malicious websites and files that could later be used for anti-virus and Intrusion Detection System (IDS) signatures. Furthermore, preventing users from deleting browsing history could be used to identify abusive web surfing on government systems.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-89845
+ - V-75165
+ - CCI-000169
+Fix Ref.: F-23290r415886_fix
+Fix Text: Windows group policy:
+ 1. Open the group policy editor tool with gpedit.msc 
+ 2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+ Policy Name: Enable deleting browser and download history
+ Policy State: Disabled
+ Policy Value: N/A
+----------
+
+Rule ID: SV-221587r879559
+Version: DTBC-0053
+Title: Prompt for download location must be enabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: If the policy is enabled, the user will be asked where to save each file before downloading. If the policy is disabled, downloads will start immediately, and the user will not be asked where to save the file. If the policy is not configured, the user will be able to change this setting.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-94633
+ - V-79929
+ - CCI-000169
+Fix Ref.: F-23291r415889_fix
+Fix Text: Windows group policy:
+1. Open the group policy editor tool with gpedit.msc
+2. Navigate to Policy Path:  Computer Configuration\Administrative Templates\Google\Google Chrome\
+ Policy Name: Ask where to save each file before downloading
+ Policy State:  Enabled
+ Policy Value: N/A
+----------
+
+Rule ID: SV-221588r879559
+Version: DTBC-0055
+Title: Download restrictions must be configured.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Configure the type of downloads that Google Chrome will completely block, without letting users override the security decision. If you set this policy, Google Chrome will prevent certain types of downloads, and will not let user bypass the security warnings. When the "Block dangerous downloads" option is chosen, all downloads are allowed, except for those that carry SafeBrowsing warnings. When the "Block potentially dangerous downloads" option is chosen, all downloads allowed, except for those that carry SafeBrowsing warnings of potentially dangerous downloads. When the "Block all downloads" option is chosen, all downloads are blocked. When this policy is not set, (or the "No special restrictions" option is chosen), the downloads will go through the usual security restrictions based on SafeBrowsing analysis results. Note that these restrictions apply to downloads triggered from web page content, as well as the 'download link...' context menu option. These restrictions do not apply to the save / download of the currently displayed page, nor does it apply to saving as PDF from the printing options. See https://developers.google.com/safe-browsing for more info on SafeBrowsing. 0 = No special restrictions 1 = Block dangerous downloads 2 = Block potentially dangerous downloads 3 = Block all downloads
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-94635
+ - V-79931
+ - CCI-000169
+Fix Ref.: F-23292r415892_fix
+Fix Text: If the system is on the SIPRNet, this requirement is NA.
+Windows group policy:
+1. Open the group policy editor tool with gpedit.msc
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+Policy Name: Allow download restrictions
+Policy State: 1 or 2
+Policy Value: N/A
+----------
+
+Rule ID: SV-221590r879627
+Version: DTBC-0057
+Title: Safe Browsing Extended Reporting must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Enables Google Chrome's Safe Browsing Extended Reporting and prevents users from changing this setting. Extended Reporting sends some system information and page content to Google servers to help detect dangerous apps and sites. If the setting is set to "True", then reports will be created and sent whenever necessary (such as when a security interstitial is shown). If the setting is set to "False", reports will never be sent. If this policy is set to "True" or "False", the user will not be able to modify the setting. If this policy is left unset, the user will be able to change the setting and decide whether to send reports or not.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-96299
+ - V-81585
+ - CCI-001166
+Fix Ref.: F-23294r415898_fix
+Fix Text: Windows group policy:
+1. Open the “group policy editor” tool with gpedit.msc
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\Safe Browsing settings\
+Policy Name: Enable Safe Browsing Extended Reporting
+Policy State: Disabled
+Policy Value: N/A
+----------
+
+Rule ID: SV-221591r879587
+Version: DTBC-0058
+Title: WebUSB must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Allows you to set whether websites are allowed to get access to connected USB devices. Access can be completely blocked, or the user can be asked every time a website wants to get access to connected USB devices. If this policy is left not set, ”3” will be used, and the user will be able to change it. 2 = Do not allow any site to request access to USB devices via the WebUSB API 3 = Allow sites to ask the user to grant access to a connected USB device
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-96301
+ - V-81587
+ - CCI-000381
+Fix Ref.: F-23295r415901_fix
+Fix Text: Windows group policy:
+ 1. Open the “group policy editor” tool with gpedit.msc
+ 2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\Content Settings
+ Policy Name: Control use of the WebUSB API
+ Policy State: Enabled
+ Policy Value: 2
+----------
+
+Rule ID: SV-221592r879559
+Version: DTBC-0060
+Title: Chrome Cleanup must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: If set to "False", prevents Chrome Cleanup from scanning the system for unwanted software and performing cleanups. Manually triggering Chrome Cleanup from chrome://settings/cleanup is disabled. If set to "True" or unset, Chrome Cleanup periodically scans the system for unwanted software and should any be found, will ask the user if they wish to remove it. Manually triggering Chrome Cleanup from chrome://settings is enabled. This policy is available only on Windows instances that are joined to a Microsoft Active Directory domain.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-96305
+ - V-81591
+ - CCI-000169
+Fix Ref.: F-23296r878034_fix
+Fix Text: Windows group policy:
+1. Open the "group policy editor" tool with gpedit.msc.
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome
+Policy Name: Enable Chrome Cleanup on Windows
+Policy State: Disabled
+Policy Value: N/A
+----------
+
+Rule ID: SV-221593r879559
+Version: DTBC-0061
+Title: Chrome Cleanup reporting must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: If unset, should Chrome Cleanup detect unwanted software, it may report metadata about the scan to Google in accordance with policy set by “SafeBrowsingExtendedReportingEnabled”. Chrome Cleanup will then ask the user if they wish to clean up the unwanted software. The user can choose to share results of the cleanup with Google to assist with future unwanted software detection. These results contain file metadata and registry keys as described by the Chrome Privacy Whitepaper. If set to “false”, should Chrome Cleanup detect unwanted software, it will not report metadata about the scan to Google, overriding any policy set by “SafeBrowsingExtendedReportingEnabled”. Chrome Cleanup will ask the user if they wish to clean up the unwanted software. Results of the cleanup will not be reported to Google and the user will not have the option to do so. If set to “true”, should Chrome Cleanup detect unwanted software, it may report metadata about the scan to Google in accordance with policy set by “SafeBrowsingExtendedReportingEnabled”. Chrome Cleanup will ask the user if they wish to clean up the unwanted software. Results of the cleanup will be reported to Google and the user will not have the option to prevent it. This policy is available only on Windows instances that are joined to a Microsoft Active Directory domain.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-96307
+ - V-81593
+ - CCI-000169
+Fix Ref.: F-23297r415907_fix
+Fix Text: Windows group policy:
+1. Open the “group policy editor” tool with gpedit.msc
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome
+Policy Name: Control how Chrome Cleanup reports data to Google
+Policy State: Disabled
+Policy Value: N/A
+----------
+
+Rule ID: SV-221594r879587
+Version: DTBC-0063
+Title: Google Cast must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: If this policy is set to ”True” or is not set, Google Cast will be enabled, and users will be able to launch it from the app menu, page context menus, media controls on Cast-enabled websites, and (if shown) the “Cast toolbar” icon. If this policy set to ”False”, Google Cast will be disabled.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-96311
+ - V-81597
+ - CCI-000381
+Fix Ref.: F-23298r415910_fix
+Fix Text: Windows group policy:
+1. Open the “group policy editor” tool with gpedit.msc
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\Google Cast
+Policy Name: Enable Google Cast
+Policy State: Disabled
+Policy Value: N/A
+----------
+
+Rule ID: SV-221595r879587
+Version: DTBC-0064
+Title: Autoplay must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: This allows a user to control if videos can play automatically with audio content (without user consent) in Google Chrome. If the policy is set to "True", Google Chrome is allowed to autoplay media. If the policy is set to "False", Google Chrome is not allowed to autoplay media. The "AutoplayAllowlist" policy can be used to override this for certain URL patterns. By default, Google Chrome is not allowed to autoplay media. The "AutoplayAllowlist" policy can be used to override this for certain URL patterns.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-96295
+ - V-81581
+ - CCI-000381
+Fix Ref.: F-23299r415913_fix
+Fix Text: Windows group policy:
+1. Open the “group policy editor” tool with gpedit.msc
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+Policy Name: Allow media autoplay
+Policy State: Disabled
+Policy Value: N/A
+----------
+
+Rule ID: SV-221597r879627
+Version: DTBC-0066
+Title: Anonymized data collection must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Enable URL-keyed anonymized data collection in Google Chrome and prevent users from changing this setting. URL-keyed anonymized data collection sends URLs of pages the user visits to Google to make searches and browsing better. If you enable this policy, URL-keyed anonymized data collection is always active. If you disable this policy, URL-keyed anonymized data collection is never active. If this policy is left not set, URL-keyed anonymized data collection will be enabled but the user will be able to change it.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-101303
+ - V-91203
+ - CCI-001166
+Fix Ref.: F-23301r415919_fix
+Fix Text: Windows group policy:
+1. Open the group policy editor tool with gpedit.msc
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+Policy Name: Enable URL-keyed anonymized data collection
+Policy State: Disabled
+Policy Value: NA
+----------
+
+Rule ID: SV-221598r879627
+Version: DTBC-0067
+Title: Collection of WebRTC event logs must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: If the policy is set to “true”, Google Chrome is allowed to collect WebRTC event logs from Google services (e.g., Google Meet), and upload those logs to Google. If the policy is set to “false”, or is unset, Google Chrome may not collect nor upload such logs. These logs contain diagnostic information helpful when debugging issues with audio or video calls in Chrome, such as the time and size of sent and received RTP packets, feedback about congestion on the network, and metadata about time and quality of audio and video frames. These logs do not contain audio or video contents from the call. This data collection by Chrome can only be triggered by Google's web services, such as Google Hangouts or Google Meet.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-101305
+ - V-91205
+ - CCI-001166
+Fix Ref.: F-23302r415922_fix
+Fix Text: Windows group policy:
+1. Open the group policy editor tool with gpedit.msc
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+Policy Name: Allow collection of WebRTC event logs from Google services
+Policy State: Disabled
+Policy Value: NA
+----------
+
+Rule ID: SV-221599r879655
+Version: DTBC-0068
+Title: Chrome development tools must be disabled.
+Weight: 10.0
+Severity: low
+Description:
+ - VulnDiscussion: While the risk associated with browser development tools is more related to the proper design of a web application, a risk vector remains within the browser. The developer tools allow end users and application developers to view and edit all types of web application related data via the browser. Page elements, source code, javascript, API calls, application data, etc. may all be viewed and potentially manipulated. Manipulation could be useful for troubleshooting legitimate issues, and this may be performed in a development environment. Manipulation could also be malicious and must be addressed.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-106629
+ - V-97525
+ - CCI-001312
+Fix Ref.: F-23303r478215_fix
+Fix Text: Windows group policy:
+1. Open the "group policy editor" tool with gpedit.msc 
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome
+Policy Name: Control where Developer Tools can be used
+Policy State: Enabled
+Policy Value: Disallow usage of the Developer Tools
+----------
+
+Rule ID: SV-226401r879627
+Version: DTBC-0069
+Title: Guest Mode must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: If this policy is set to true or not configured, Google Chrome will enable guest logins. Guest logins are Google Chrome profiles where all windows are in incognito mode. If this policy is set to false, Google Chrome will not allow guest profiles to be started.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-111829
+ - V-102867
+ - CCI-001166
+Fix Ref.: F-28097r478218_fix
+Fix Text: Windows group policy:
+1. Open the "group policy editor" tool with gpedit.msc 
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+Policy Name: Enable guest mode in browser
+Policy State: Disabled
+----------
+
+Rule ID: SV-226402r879627
+Version: DTBC-0070
+Title: AutoFill for credit cards must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Enabling Google Chrome's AutoFill feature allows users to auto complete credit card information in web forms using previously stored information. If this setting is disabled, Autofill will never suggest or fill credit card information, nor will it save additional credit card information that the user might submit while browsing the web. If this setting is enabled or has no value, the user will be able to control Autofill for credit cards in the UI.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-111831
+ - V-102869
+ - CCI-001166
+Fix Ref.: F-28098r478221_fix
+Fix Text: Windows group policy:
+1. Open the "group policy editor" tool with gpedit.msc 
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+Policy Name: Enable AutoFill for credit cards
+Policy State: Disabled
+----------
+
+Rule ID: SV-226403r879627
+Version: DTBC-0071
+Title: AutoFill for addresses must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Enabling Google Chrome's AutoFill feature allows users to auto complete address information in web forms using previously stored information. If this setting is disabled, Autofill will never suggest or fill address information, nor will it save additional address information that the user might submit while browsing the web. If this setting is enabled or has no value, the user will be able to control Autofill for addresses in the UI.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-111833
+ - V-102871
+ - CCI-001166
+Fix Ref.: F-28099r478224_fix
+Fix Text: Windows group policy:
+1. Open the "group policy editor" tool with gpedit.msc 
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+Policy Name: Enable AutoFill for addresses
+Policy State: Disabled
+----------
+
+Rule ID: SV-226404r879627
+Version: DTBC-0072
+Title: Import AutoFill form data must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: This policy forces the autofill form data to be imported from the previous default browser if enabled. If enabled, this policy also affects the import dialog. If disabled, the autofill form data is not imported. If it is not set, the user may be asked whether to import, or importing may happen automatically.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - SV-111835
+ - V-102873
+ - CCI-001166
+Fix Ref.: F-28100r478227_fix
+Fix Text: Windows group policy:
+1. Open the "group policy editor" tool with gpedit.msc 
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\
+Policy Name: Import autofill form data from default browser on first run
+Policy State: Disabled
+----------
+
+Rule ID: SV-245538r879756
+Version: DTBC-0074
+Title: Use of the QUIC protocol must be disabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: QUIC is used by more than half of all connections from the Chrome web browser to Google's servers, and this activity is undesirable in the DoD. Setting the policy to Enabled or leaving it unset allows the use of QUIC protocol in Google Chrome. Setting the policy to Disabled disallows the use of QUIC protocol.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - CCI-001762
+Fix Ref.: F-48769r808523_fix
+Fix Text: Windows group policy:
+1. Open the “group policy editor” tool with gpedit.msc.
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google Chrome.
+- Policy Name: Allow QUIC protocol
+- Policy State: Disabled
+- Policy Value: N/A
+----------
+
+Rule ID: SV-245539r940013
+Version: DTBC-0045
+Title: Session only based cookies must be enabled.
+Weight: 10.0
+Severity: medium
+Description:
+ - VulnDiscussion: Cookies must only be allowed per session and only for approved URLs as permanently stored cookies can be used for malicious intent. Approved URLs may be allowlisted via the CookiesAllowedForUrls policy setting, but is not a requirement.
+ - FalsePositives: N/A
+ - FalseNegatives: N/A
+ - Documentable: false
+ - Mitigations: N/A
+ - SeverityOverrideGuidance: N/A
+ - PotentialImpacts: N/A
+ - ThirdPartyTools: N/A
+ - MitigationControl: N/A
+ - Responsibility: N/A
+ - IAControls: N/A
+Identifiers:
+ - CCI-000166
+Fix Ref.: F-23287r940012_fix
+Fix Text: Windows group policy:
+1. Open the group policy editor tool with gpedit.msc 
+2. Navigate to Policy Path: Computer Configuration\Administrative Templates\Google\Google Chrome\Content Settings.
+- Policy Name: Default cookies setting
+- Policy State: Enabled
+- Policy Value: Keep cookies for the duration of the session
+----------
+
+DEFINITIONS:
+  ___  __   __   _    _    
+ / _ \ \ \ / /  /_\  | |   
+| (_) | \ V /  / _ \ | |__ 
+ \___/   \_/  /_/ \_\|____|
+                           
+
+Found 39 definitions.
+Definition ID: oval:mil.disa.stig.chrome:def:138
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows Server 2016
+ - Microsoft Windows Server 2019
+ - Microsoft Windows 10
+Title: DTBC-0074 - Use of the QUIC protocol must be disabled
+Description:
+QUIC is used by more than half of all connections from the Chrome web browser to Google's servers, and this activity is undesirable in the DoD.
+
+Setting the policy to Enabled or leaving it unset allows the use of QUIC protocol in Google Chrome.
+
+Setting the policy to Disabled disallows the use of QUIC protocol.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:13800
+ - Comment: Use of the QUIC protocol is disabled
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:240001
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Vista
+ - Microsoft Windows Server 2008
+ - Microsoft Windows 7
+ - Microsoft Windows Server 2008 R2
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows Server 2012
+ - Microsoft Windows 8
+ - Microsoft Windows 8.1
+ - Microsoft Windows 10
+Title: DTBC-0001 - Firewall traversal from remote host must be disabled
+Description:
+Enables usage of STUN and relay servers when remote clients are trying to establish a connection to this machine. If this setting is enabled, then remote clients can discover and connect to this machines even if they are separated by a firewall. If this setting is disabled and outgoing UDP connections are filtered by the firewall, then this machine will only allow connections from client machines within the local network. If this policy is left not set the setting will be enabled.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:240001
+ - Comment: Registry check
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:240002
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Vista
+ - Microsoft Windows Server 2008
+ - Microsoft Windows 7
+ - Microsoft Windows Server 2008 R2
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows Server 2012
+ - Microsoft Windows 8
+ - Microsoft Windows 8.1
+ - Microsoft Windows 10
+Title: DTBC-0002 - Site tracking user's location must be disabled
+Description:
+Allows you to set whether websites are allowed to track the users' physical location. Tracking the users' physical location can be allowed by default, denied by default or the user can be asked every time a website requests the physical location. If this policy is left not set, 'AskGeolocation' will be used and the user will be able to change it.
+	1 = Allow sites to track the users' physical location
+	2 = Do not allow any site to track the users' physical location
+	3 = Ask whenever a site wants to track the users' physical location
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:240002
+ - Comment: Registry check
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:240004
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Vista
+ - Microsoft Windows Server 2008
+ - Microsoft Windows Server 2008 R2
+ - Microsoft Windows 7
+ - Microsoft Windows 8
+ - Microsoft Windows 8.1
+ - Microsoft Windows Server 2012
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows 10
+ - Google Chrome
+Title: DTBC-0004 - Sites' ability to show pop-ups must be disabled
+Description:
+Allows you to set whether websites are allowed to show pop-ups. Showing popups can be either allowed for all websites or denied for all websites. If this policy is left not set, 'BlockPopups' will be used and the user will be able to change it.
+    1 = Allow all sites to show pop-ups
+    2 = Do not allow any site to show popups
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:240004
+ - Comment: Registry check
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:240005
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Server 2012
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows Server 2016
+ - Microsoft Windows Server 2019
+ - Microsoft Windows 10
+Title: DTBC-0005 - Extensions installation must be blocklisted by default
+Description:
+Extensions are developed by third party sources and are designed to extend Google Chrome's functionality. An extension can be made by anyone, to do and access almost anything on a system; this means they pose a high risk to any system that would allow all extensions to be installed by default. Allows you to specify which extensions the users can NOT install. Extensions already installed will be removed if blocklisted. A blocklist value of '*' means all extensions are blocklisted unless they are explicitly listed in the allowlist. If this policy is left not set the user can install any extension in Google Chrome.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:240005
+ - Comment: Extensions installation are blocklisted by default
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:240006
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Server 2012
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows Server 2016
+ - Microsoft Windows Server 2019
+ - Microsoft Windows 10
+Title: DTBC-0006 - Extensions that are approved for use must be allowlisted
+Description:
+The allowlist should only contain organizationally approved extensions. This is to prevent a user from accidently allowlisitng a malicious extension. This policy allows you to specify which extensions are not subject to the blacklist. A blacklist value of ‘*’ means all extensions are blacklisted and users can only install extensions listed in the allowlist. By default, no extensions are allowlisted. If all extensions have been blacklisted by policy, then the allowlist policy can be used to allow specific extensions to be installed. Administrators should determine which extensions should be allowed to be installed by their users. If no extensions are allowlisted, then no extensions can be installed when combined with blacklisting all extensions.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:240006
+ - Comment: Extensions that are approved for use are allowlisted
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:240007
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Vista
+ - Microsoft Windows Server 2008
+ - Microsoft Windows Server 2008 R2
+ - Microsoft Windows 7
+ - Microsoft Windows 8
+ - Microsoft Windows 8.1
+ - Microsoft Windows Server 2012
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows 10
+ - Google Chrome
+Title: DTBC-0007 - The default search provider's name must be set
+Description:
+Specifies the name of the default search provider. If left empty or not set, the host name specified by the search URL will be used. This policy is only considered if the 'DefaultSearchProviderEnabled' policy is enabled
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:240007
+ - Comment: Registry check
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:240009
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Vista
+ - Microsoft Windows Server 2008
+ - Microsoft Windows Server 2008 R2
+ - Microsoft Windows 7
+ - Microsoft Windows 8
+ - Microsoft Windows 8.1
+ - Microsoft Windows Server 2012
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows 10
+ - Google Chrome
+Title: DTBC-0009 - Default search provider must be enabled
+Description:
+Enables the use of a default search provider. If you enable this setting, a default search is performed when the user types text In the omnibox that is not a URL. You can specify the default search provider to be used by setting the rest of the default search policies. If these are left empty, the user can choose the default provider. If you disable this setting, no search is performed when the user enters non-URL text in the omnibox. If you enable or disable this setting, users cannot change or override this setting in Google Chrome. If this policy is left not set, the default search provider is enabled, and the user will be able to set the search provider list.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:240009
+ - Comment: Registry check
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:240011
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Vista
+ - Microsoft Windows Server 2008
+ - Microsoft Windows Server 2008 R2
+ - Microsoft Windows 7
+ - Microsoft Windows 8
+ - Microsoft Windows 8.1
+ - Microsoft Windows Server 2012
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows 10
+ - Google Chrome
+Title: DTBC-0011 - The Password Manager must be disabled
+Description:
+Enables saving passwords and using saved passwords in Google Chrome. If you enable this setting, users can have Google Chrome memorize passwords and provide them automatically the next time they log in to a site. If you disable this setting, users are not able to save passwords or use already saved passwords. If you enable or disable this setting, users cannot change or override this setting in Google Chrome. If this policy is left not set, this will be enabled but the user will be able to change it.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:240011
+ - Comment: Registry check
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:240017
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Vista
+ - Microsoft Windows Server 2008
+ - Microsoft Windows 7
+ - Microsoft Windows Server 2008 R2
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows Server 2012
+ - Microsoft Windows 8
+ - Microsoft Windows 8.1
+ - Microsoft Windows 10
+Title: DTBC-0017 - Background processing must be disabled
+Description:
+Determines whether a Google Chrome process is started on OS login and keeps running when the last browser window is closed, allowing background apps to remain active. The background process displays an icon in the system tray and can always be closed from there. If this policy is set to True, background mode is enabled and cannot be controlled by the user in the browser settings. If this policy is set to False, background mode is disabled and cannot be controlled by the user in the browser settings. If this policy is left unset, background mode is initially disabled and can be controlled by the user in the browser settings.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:240017
+ - Comment: Registry check
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:240020
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Vista
+ - Microsoft Windows Server 2008
+ - Microsoft Windows 7
+ - Microsoft Windows Server 2008 R2
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows Server 2012
+ - Microsoft Windows 8
+ - Microsoft Windows 8.1
+ - Microsoft Windows 10
+Title: DTBC-0020 - Google Data Synchronization must be disabled
+Description:
+Disables data synchronization in Google Chrome using Google-hosted synchronization services and prevents users from changing this setting. If you enable this setting, users cannot change or override this setting in Google Chrome. If this policy is left not set Google Sync will be available for the user to choose whether to use it or not.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:240020
+ - Comment: Registry check
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:240021
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows Server 2016
+ - Microsoft Windows Server 2019
+ - Microsoft Windows 10
+Title: DTBC-0021 - The URL protocol schema javascript must be disabled
+Description:
+Each access to a URL is handled by the browser according to the URL's "scheme". The "scheme" of a URL is the section before the ":". The term "protocol" is often mistakenly used for a "scheme". The difference is that the scheme is how the browser handles a URL and the protocol is how the browser communicates with a service. If a scheme or its associated protocol used by a browser is insecure or obsolete, vulnerabilities can be exploited resulting in exposed data or unrestricted access to the browser's system. The browser must be configured to disable the use of insecure and obsolete schemas (protocols).
+This policy disables the listed protocol schemes in Google Chrome, URLs using a scheme from this list will not load and cannot be navigated to. If this policy is left not set or the list is empty all schemes will be accessible in Google Chrome.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:2400211
+ - Comment: The URL protocol schema javascript is disabled
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:240023
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Vista
+ - Microsoft Windows Server 2008
+ - Microsoft Windows 7
+ - Microsoft Windows Server 2008 R2
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows Server 2012
+ - Microsoft Windows 8
+ - Microsoft Windows 8.1
+ - Microsoft Windows 10
+Title: DTBC-0023 - Disable Cloud Print Sharing
+Description:
+"Enables Google Chrome to act as a proxy between Google Cloud Print and legacy printers connected to the machine. If this setting is enabled or not configured, users can enable the cloud print proxy by authentication with their Google account. If this setting is disabled, users cannot enable the proxy, and the machine will not be allowed to share it's printers with Google Cloud Print. If this policy is left not set, this will be enabled but the user will be able to change it." - Google Chrome Administrators Policy List
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:240023
+ - Comment: Registry check
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:240025
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Vista
+ - Microsoft Windows Server 2008
+ - Microsoft Windows 7
+ - Microsoft Windows Server 2008 R2
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows Server 2012
+ - Microsoft Windows Server 2016
+ - Microsoft Windows 8
+ - Microsoft Windows 8.1
+ - Microsoft Windows 10
+Title: DTBC-0025 - Network prediction must be disabled.
+Description:
+Disables network prediction in Google Chrome and prevents users from changing this setting. If you enable or disable this setting, users cannot change or override this setting in Google Chrome. If this policy is left not set, this will be disabled but the user will be able to change it.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:240025
+ - Comment: Check the registry value HKLM\Software\Policies\Google\Chrome\NetworkPredictionOptions\NetworkPredictionOptions is set to 2 to disable network prediction
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:240026
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Vista
+ - Microsoft Windows Server 2008
+ - Microsoft Windows 7
+ - Microsoft Windows Server 2008 R2
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows Server 2012
+ - Microsoft Windows 8
+ - Microsoft Windows 8.1
+ - Microsoft Windows 10
+Title: DTBC-0026 - Metrics reporting to Google must be disabled
+Description:
+Enables anonymous reporting of usage and crash-related data about Google Chrome to Google and prevents users from changing this setting. If you enable this setting, anonymous reporting of usage and crash-related data is sent to Google. If you disable this setting, anonymous reporting of usage and crash-related data is never sent to Google. If you enable or disable this setting, users cannot change or override this setting in Google Chrome. If this policy is left not set the setting will be what the user chose upon installation / first run.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:240026
+ - Comment: Registry check
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:240027
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Vista
+ - Microsoft Windows Server 2008
+ - Microsoft Windows 7
+ - Microsoft Windows Server 2008 R2
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows Server 2012
+ - Microsoft Windows 8
+ - Microsoft Windows 8.1
+ - Microsoft Windows 10
+Title: DTBC-0027 - Search suggestions must be enabled
+Description:
+Enables search suggestions in Google Chrome's Omnibox and prevents users from changing this setting. If you enable this setting, search suggestions are used. If you disable this setting, search suggestions are never used. If you enable or disable this setting, users cannot change or override this setting in Google Chrome. If this policy is left not set, this will be enabled but the user will be able to change it.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:240027
+ - Comment: Registry check
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:240029
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Vista
+ - Microsoft Windows Server 2008
+ - Microsoft Windows Server 2008 R2
+ - Microsoft Windows 7
+ - Microsoft Windows 8
+ - Microsoft Windows 8.1
+ - Microsoft Windows Server 2012
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows 10
+ - Google Chrome
+Title: DTBC-0029 - Importing of saved passwords must be disabled
+Description:
+This policy forces the saved passwords to be imported from the previous default browser if enabled. If enabled, this policy also affects the import dialog. If disabled, the saved passwords are not imported. If it is not set, the user may be asked whether to import, or importing may happen automatically.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:240029
+ - Comment: Registry check
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:240030
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Vista
+ - Microsoft Windows Server 2008
+ - Microsoft Windows 7
+ - Microsoft Windows Server 2008 R2
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows Server 2012
+ - Microsoft Windows 8
+ - Microsoft Windows 8.1
+ - Microsoft Windows 10
+Title: DTBC-0030 - Incognito mode must be disabled
+Description:
+Specifies whether the user may open pages in Incognito mode in Google Chrome. If 'Enabled' is selected or the policy is left unset, pages may be opened in Incognito mode. If 'Disabled' is selected, pages may not be opened in Incognito mode. If 'Forced' is selected, pages may be opened ONLY in Incognito mode.
+    0 = Incognito mode available.
+    1 = Incognito mode disabled.
+    2 = Incognito mode forced.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:240030
+ - Comment: Registry check
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:240037
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Vista
+ - Microsoft Windows Server 2008
+ - Microsoft Windows 7
+ - Microsoft Windows Server 2008 R2
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows Server 2012
+ - Microsoft Windows 8
+ - Microsoft Windows 8.1
+ - Microsoft Windows 10
+Title: DBTC-0037 - Online revocation checks must be done
+Description:
+In light of the fact that soft-fail, online revocation checks provide no effective security benefit, they are disabled by default in Google Chrome version 19 and later. By setting this policy to true, the previous behaviour is restored and online OCSP/CRL checks will be performed. If the policy is not set, or is set to false, then Chrome will not perform online revocation checks in Chrome 19 and later.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:240037
+ - Comment: Registry check
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:240038
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Server 2012
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows Server 2016
+ - Microsoft Windows Server 2019
+ - Microsoft Windows 10
+Title: DTBC-0038 - Safe Browsing must be enabled
+Description:
+Allows you to control whether Google Chrome's Safe Browsing feature is enabled and the mode it operates in.
+
+If this policy is set to 'NoProtection' (value 0), Safe Browsing is never active.
+
+If this policy is set to 'StandardProtection' (value 1, which is the default), Safe Browsing is always active in the standard mode.
+
+If this policy is set to 'EnhancedProtection' (value 2), Safe Browsing is always active in the enhanced mode, which provides better security, but requires sharing more browsing information with Google.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:240038
+ - Comment: Safe Browsing is enabled
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:240039
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Vista
+ - Microsoft Windows Server 2008
+ - Microsoft Windows 7
+ - Microsoft Windows Server 2008 R2
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows Server 2012
+ - Microsoft Windows 8
+ - Microsoft Windows 8.1
+ - Microsoft Windows 10
+Title: DTBC-0039 - Browser history must be saved
+Description:
+Disables saving browser history in Google Chrome and prevents users from changing this setting. If this setting is enabled, browsing history is not saved. If this setting is disabled or not set, browsing history is saved.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:240039
+ - Comment: Registry check
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:240045
+Class: compliance
+Affected Family: windows
+Platforms:
+Title: DTBC-0045 - Session only based cookies must be enabled.
+Description:
+Cookies must only be allowed per session and only for approved URLs as permanently stored cookies can be used for malicious intent. 
+
+Approved URLs may be allowlisted via the CookiesAllowedForUrls policy setting, but is not a requirement.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:240045
+ - Comment: Session only based cookies are enabled
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:240052
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Vista
+ - Microsoft Windows Server 2008
+ - Microsoft Windows 7
+ - Microsoft Windows Server 2008 R2
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows Server 2012
+ - Microsoft Windows 8
+ - Microsoft Windows 8.1
+ - Microsoft Windows 10
+Title: DTBC-0052 - Google Chrome must disable the 'Enable deleting browser and download history' setting
+Description:
+Users should not be allowed to delete browser and download history. The 'Enable deleting browser and download history' setting must be set to disabled.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:240052
+ - Comment: Check to make sure that google chrome is set to not allow deletion of browser and download hisotry.
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:240069
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Server 2016
+ - Microsoft Windows Server 2019
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows Server 2012
+ - Microsoft Windows 10
+Title: DTBC-0069 - Browser Guest mode must be disabled
+Description:
+Specifies whether the user may open pages in Browser Guest mode in Google Chrome. If 'Enabled' is selected or the policy is left unset, pages may be opened in Browser Guest mode. If 'Disabled' is selected, pages may not be opened in Browser Guest mode. 
+    0 = Browser Guest mode disabled.
+    1 = Browser Guest mode availble.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:240069
+ - Comment: Registry check that BrowserGuestModeEnabled is set to 0 to disable Browser Guest Mode
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:240070
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Server 2016
+ - Microsoft Windows Server 2019
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows Server 2012
+ - Microsoft Windows 10
+Title: DTBC-0070 - Enable AutoFill for credit cards must be disabled
+Description:
+Specifies whether the user may have credit card information auto filled in Google Chrome. If 'Enabled' is selected or the policy is left unset, pages may autofill credit card information. If 'Disabled' is selected, pages may not not autofill credit card information. 
+    0 = AutoFill Credit Card information disabled.
+    1 = AutoFill Credit Card information enabled.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:240070
+ - Comment: Registry check that AutofillCreditCardEnabled is set to 0 to disable the auto filling of credit card information.
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:240071
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Server 2016
+ - Microsoft Windows Server 2019
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows Server 2012
+ - Microsoft Windows 10
+Title: DTBC-0071 - Enable AutoFill for addresses must be disabled
+Description:
+Specifies whether the user may have address information auto filled in Google Chrome. If 'Enabled' is selected or the policy is left unset, pages may autofill address information. If 'Disabled' is selected, pages may not not autofill address information. 
+    0 = AutoFill Address information disabled.
+    1 = AutoFill Address information enabled.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:240071
+ - Comment: Registry check that AutofillAddressEnabled is set to 0 to disable AutoFill for addresses
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:240072
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Server 2016
+ - Microsoft Windows Server 2019
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows Server 2012
+ - Microsoft Windows 10
+Title: DTBC-0072 - Import autofill form data from default browser on first run must be disabled
+Description:
+Specifies whether Google Chrome may import autofill form data from the default browser on its first run. This policy forces the autofill form data to be imported from the previous default browser if enabled. If "Enabled", this policy also affects the import dialog. If the policy is left not set, the user may be asked whether to import, or importing may happen automatically. If 'Disabled' is selected, the autofill form data is not imported.
+    0 = Import autofill form data from the default browser on its first run is disabled.
+    1 = Import autofill form data from the default browser on its first run is enabled.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:240072
+ - Comment: Registry check that ImportAutofillFormData is set to 0 to disable Browser Guest Mode
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:520063
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows 7
+ - Microsoft Windows Server 2008
+ - Microsoft Windows 8
+ - Microsoft Windows Server 2008 R2
+ - Microsoft Windows 8.1
+ - Microsoft Windows Server 2012
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows 10
+ - Microsoft Windows Server 2016
+Title: DTBC-0063 - Google Cast must be disabled.
+Description:
+Google Cast must be disabled.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:52006300
+ - Comment: Google Cast must be disabled.
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:610055
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Vista
+ - Microsoft Windows Server 2008
+ - Microsoft Windows 7
+ - Microsoft Windows Server 2008 R2
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows Server 2012
+ - Microsoft Windows Server 2016
+ - Microsoft Windows 8
+ - Microsoft Windows 8.1
+ - Microsoft Windows 10
+Title: DTBC-0055 - Download restrictions must be configured.
+Description:
+Configure the type of downloads that Google Chrome will completely block, without letting users override the security decision. If you set this policy, Google Chrome will prevent certain types of downloads, and will not let user bypass the security warnings. When the "Block dangerous downloads" option is chosen, all downloads are allowed, except for those that carry SafeBrowsing warnings. When the "Block potentially dangerous downloads" option is chosen, all downloads allowed, except for those that carry SafeBrowsing warnings of potentially dangerous downloads. When the "Block all downloads" option is chosen, all downloads are blocked.  When this policy is not set, (or the "No special restrictions" option is chosen), the downloads will go through the usual security restrictions based on SafeBrowsing analysis results.
+
+Note that these restrictions apply to downloads triggered from web page content, as well as the 'download link...' context menu option. These restrictions do not apply to the save / download of the currently displayed page, nor does it apply to saving as PDF from the printing options. See https://developers.google.com/safe-browsing for more info on SafeBrowsing.
+0 = No special restrictions
+1 = Block dangerous downloads
+2 = Block potentially dangerous downloads
+3 = Block all downloads
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:610055
+ - Comment: Registry check
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:640053
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Server 2008
+ - Microsoft Windows 7
+ - Microsoft Windows Server 2008 R2
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows Server 2012
+ - Microsoft Windows Server 2016
+ - Microsoft Windows 8
+ - Microsoft Windows 8.1
+ - Microsoft Windows 10
+Title: DTBC-0053 - Prompt for download location must be enabled
+Description:
+If the policy is enabled, the user will be asked where to save each file before downloading. If the policy is disabled, downloads will start immediately, and the user will not be asked where to save the file. If the policy is not configured, the user will be able to change this setting.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:640053
+ - Comment: Registry check
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:660055
+Class: compliance
+Affected Family: windows
+Platforms:
+Title: DTBC-0064 - Autoplay must be disabled.
+Description:
+This allows a user to control if videos can play automatically with audio content (without user consent) in Google Chrome.
+
+If the policy is set to "True", Google Chrome is allowed to autoplay media. If the policy is set to "False", Google Chrome is not allowed to autoplay media. The "AutoplayAllowlist" policy can be used to override this for certain URL patterns. By default, Google Chrome is not allowed to autoplay media. The "AutoplayAllowlist" policy can be used to override this for certain URL patterns.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:66005500
+ - Comment: Check AutoplayAllowed value.
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:660057
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows 7
+ - Microsoft Windows Server 2008
+ - Microsoft Windows 8
+ - Microsoft Windows Server 2008 R2
+ - Microsoft Windows 8.1
+ - Microsoft Windows Server 2012
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows 10
+ - Microsoft Windows Server 2016
+Title: DTBC-0057 - Safe Browsing Extended Reporting must be disabled.
+Description:
+Do not send Extended Reporting data to Google servers.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:66005700
+ - Comment: Check SafeBrowsingExtendedReportingEnabled value.
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:670058
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows 7
+ - Microsoft Windows Server 2008
+ - Microsoft Windows 8
+ - Microsoft Windows Server 2008 R2
+ - Microsoft Windows 8.1
+ - Microsoft Windows Server 2012
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows 10
+ - Microsoft Windows Server 2016
+Title: DTBC-0058 - WebUSB must be disabled.
+Description:
+WebUSB must be disabled.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:67005800
+ - Comment: WebUSB must be disabled.
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:680060
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows 7
+ - Microsoft Windows Server 2008
+ - Microsoft Windows 8
+ - Microsoft Windows Server 2008 R2
+ - Microsoft Windows 8.1
+ - Microsoft Windows Server 2012
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows 10
+ - Microsoft Windows Server 2016
+Title: DTBC-0060 - Chrome Cleanup must be disabled.
+Description:
+Chrome Cleanup must be disabled.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:68006000
+ - Comment: Chrome Cleanup must be disabled.
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:680061
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows 7
+ - Microsoft Windows Server 2008
+ - Microsoft Windows 8
+ - Microsoft Windows Server 2008 R2
+ - Microsoft Windows 8.1
+ - Microsoft Windows Server 2012
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows 10
+ - Microsoft Windows Server 2016
+Title: DTBC-0061 - Chrome Cleanup reporting must be disabled.
+Description:
+Chrome Cleanup reporting must be disabled.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:68006100
+ - Comment: Chrome Cleanup reporting must be disabled.
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:680062
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows 7
+ - Microsoft Windows Server 2008
+ - Microsoft Windows 8
+ - Microsoft Windows Server 2008 R2
+ - Microsoft Windows 8.1
+ - Microsoft Windows Server 2012
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows 10
+ - Microsoft Windows Server 2016
+ - Microsoft Windows Server 2019
+Title: DTBC-0068 - Chrome Developer Tools Availability must be disallowed.
+Description:
+Chrome Developer Tools Availability must be disallowed.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:68006200
+ - Comment: Chrome Developer Tools Availability must be disallowed.
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:690066
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Vista
+ - Microsoft Windows Server 2008
+ - Microsoft Windows 7
+ - Microsoft Windows Server 2008 R2
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows Server 2012
+ - Microsoft Windows Server 2016
+ - Microsoft Windows 8
+ - Microsoft Windows 8.1
+ - Microsoft Windows 10
+Title: DTBC-0066 - URL-keyed anonymized data collection must be disabled.
+Description:
+Disable URL-keyed anonymized data collection in Google Chrome and prevents users from changing this setting.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:690066
+ - Comment: Check the registry value HKLM\Software\Policies\Google\Chrome\UrlKeyedAnonymizedDataCollectionEnabled is set to 0 to disable anonymized data collection
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:700067
+Class: compliance
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Vista
+ - Microsoft Windows Server 2008
+ - Microsoft Windows 7
+ - Microsoft Windows Server 2008 R2
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows Server 2012
+ - Microsoft Windows Server 2016
+ - Microsoft Windows 8
+ - Microsoft Windows 8.1
+ - Microsoft Windows 10
+Title: DTBC-0067 - Disable WebRTC event log collection.
+Description:
+If the policy is set to true, Google Chrome is allowed to collect WebRTC event logs from Google services (e.g. Google Meet), and upload those logs to Google.
+
+If the policy is set to false, or is unset, Google Chrome may not collect nor upload such logs.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:700067
+ - Comment: Check the registry value HKLM\Software\Policies\Google\Chrome\WebRtcEventLogCollectionAllowed is set to 0 to disable WebRTC event log collection
+----------
+
+Definition ID: oval:mil.disa.stig.chrome:def:2
+Class: inventory
+Affected Family: windows
+Platforms:
+ - Microsoft Windows Server 2008
+ - Microsoft Windows Server 2008 R2
+ - Microsoft Windows 7
+ - Microsoft Windows 8
+ - Microsoft Windows 8.1
+ - Microsoft Windows Server 2012
+ - Microsoft Windows Server 2012 R2
+ - Microsoft Windows Server 2016
+ - Microsoft Windows 10
+ - Google Chrome
+Title: Google Chrome is Installed
+Description:
+A recent version of Google Chrome is installed.
+Criteria:
+ - Test Ref.: oval:mil.disa.stig.chrome:tst:203
+ - Comment: 32-bit Google Chrome is a recent version
+----------
+
+ _____  ___  ___  _____  ___ 
+|_   _|| __|/ __||_   _|/ __|
+  | |  | _| \__ \  | |  \__ \
+  |_|  |___||___/  |_|  |___/
+                             
+
+Found 38 registry tests.
+Test ID: oval:mil.disa.stig.chrome:tst:13800
+Comment: Use of the QUIC protocol is disabled
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:13800
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:10
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:240001
+Comment: Disable firewall traversal
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:240001
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:240001
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:240002
+Comment: Disable tracking user's location
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:240002
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:240002
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:240004
+Comment: Disable pop-ups
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:240004
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:240004
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:240005
+Comment: Extensions installation are blocklisted by default
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:240005
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:240005
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:240006
+Comment: Extensions that are approved for use are allowlisted
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:240006
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:240006
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:240007
+Comment: Set default search provider name
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:240007
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:240007
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:240009
+Comment: Enable default search provider
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:240009
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:240009
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:240011
+Comment: Disable Password Manager
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:240011
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:240011
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:240017
+Comment: Disable background processing
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:240017
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:240017
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:240020
+Comment: Disable Google data synchronization
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:240020
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:240020
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:240023
+Comment: Disable cloud print sharing
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:240023
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:240023
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:240025
+Comment: Disable network prediction
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:240025
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:240025
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:240026
+Comment: Disable Google metrics reporting
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:240026
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:240026
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:240027
+Comment: Enable search suggestion
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:240027
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:240027
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:240029
+Comment: Password history=VAR
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:240029
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:240029
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:240030
+Comment: Disable incognito mode
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:240030
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:240030
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:240037
+Comment: Perform online revocation checks
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:240037
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:240037
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:240038
+Comment: Safe Browsing is enabled
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:240038
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:240038
+ - oval:mil.disa.stig.chrome:ste:24003801
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:240039
+Comment: Save browser history
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:240039
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:240039
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:240045
+Comment: Session only based cookies are enabled
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:240045
+State Refs:
+ - oval:mil.disa.stig.win:ste:20000004
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:240052
+Comment: Check to make sure that google chrome is set to not allow deletion of browser and download history.
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:240052
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:240052
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:240069
+Comment: Disable Browser Guest Mode
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:240069
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:240069
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:240070
+Comment: Disable auto filling of credit card information
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:240070
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:240070
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:240071
+Comment: Disable AutoFill for addresses
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:240071
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:240071
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:240072
+Comment: Disable Browser Guest Mode
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:240072
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:240072
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:610055
+Comment: HKLM\Software\Policies\Google\Chrome\DownloadRestrictions is set to 1 or 2
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:610055
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:6100550
+ - oval:mil.disa.stig.chrome:ste:6100551
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:640053
+Comment: Prompt for download location
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:640053
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:640053
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:690066
+Comment: Disable URL-keyed anonymized data collection
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:690066
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:690066
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:700067
+Comment: Disable WebRTC event log collection
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:700067
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:700067
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:2400211
+Comment: The URL protocol schema javascript is disabled
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:2400211
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:2400211
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:52006300
+Comment: Google Cast must be disabled.
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:52006300
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:52006300
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:66005500
+Comment: Autoplay is disabled
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:66005500
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:66005500
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:66005700
+Comment: Check SafeBrowsingExtendedReportingEnabled value.
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:66005700
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:66005700
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:67005800
+Comment: WebUSB must be disabled.
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:67005800
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:67005800
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:68006000
+Comment: Chrome Cleanup must be disabled.
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:68006000
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:68006000
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:68006100
+Comment: Chrome Cleanup reporting must be disabled.
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:68006100
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:68006100
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:68006200
+Comment: Chrome Developer Tools Availability must be disallowed.
+Check Existence: at_least_one_exists
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:68006200
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:68006200
+----------
+
+Found 4 registry tests.
+Test ID: oval:mil.disa.stig.chrome:tst:200
+Comment: 64-bit Google Chrome is installed
+Check Existence: none_exist
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:204
+State Refs:
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:201
+Comment: 32-bit Google Chrome is installed
+Check Existence: none_exist
+Check: all
+Object Ref: oval:mil.disa.stig.chrome:obj:205
+State Refs:
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:202
+Comment: 64-bit Google Chrome is a recent version
+Check Existence: at_least_one_exists
+Check: at least one
+Object Ref: oval:mil.disa.stig.chrome:obj:202
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:200
+----------
+
+Test ID: oval:mil.disa.stig.chrome:tst:203
+Comment: 32-bit Google Chrome is a recent version
+Check Existence: at_least_one_exists
+Check: at least one
+Object Ref: oval:mil.disa.stig.chrome:obj:203
+State Refs:
+ - oval:mil.disa.stig.chrome:ste:200
+----------
+
+  ___   ___     _  ___   ___  _____  ___ 
+ / _ \ | _ ) _ | || __| / __||_   _|/ __|
+| (_) || _ \| || || _| | (__   | |  \__ \
+ \___/ |___/ \__/ |___| \___|  |_|  |___/
+                                         
+
+Found 38 registry objects.
+Object ID: oval:mil.disa.stig.chrome:obj:13800
+Version: 1
+Hive: HKEY_LOCAL_MACHINE
+Key: SOFTWARE\Policies\Google\Chrome
+Name: QuicAllowed
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:240001
+Version: 56054702
+Hive: HKEY_LOCAL_MACHINE
+Key: SOFTWARE\Policies\Google\Chrome
+Name: RemoteAccessHostFirewallTraversal
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:240002
+Version: 56054705
+Hive: HKEY_LOCAL_MACHINE
+Key: SOFTWARE\Policies\Google\Chrome
+Name: DefaultGeolocationSetting
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:240004
+Version: 56054711
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: DefaultPopupsSetting
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:240005
+Version: 56054715
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome\ExtensionInstallBlocklist
+Name: 1
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:240006
+Version: 56054718
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome\ExtensionInstallAllowlist
+Name: 1
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:240007
+Version: 56054720
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: DefaultSearchProviderName
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:240009
+Version: 56054726
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: DefaultSearchProviderEnabled
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:240011
+Version: 56054732
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: PasswordManagerEnabled
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:240017
+Version: 56054750
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: BackgroundModeEnabled
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:240020
+Version: 56054759
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: SyncDisabled
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:240023
+Version: 575226513
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome\
+Name: CloudPrintProxyEnabled
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:240025
+Version: 56054779
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: NetworkPredictionOptions
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:240026
+Version: 56054780
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: MetricsReportingEnabled
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:240027
+Version: 56054783
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: SearchSuggestEnabled
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:240029
+Version: 56054789
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: ImportSavedPasswords
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:240030
+Version: 56054792
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: IncognitoModeAvailability
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:240037
+Version: 56054819
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: EnableOnlineRevocationChecks
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:240038
+Version: 56054823
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: SafeBrowsingProtectionLevel
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:240039
+Version: 56054825
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: SavingBrowserHistoryDisabled
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:240045
+Version: 3
+Hive: HKEY_LOCAL_MACHINE
+Key: SOFTWARE\Policies\Google\Chrome
+Name: DefaultCookiesSetting
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:240052
+Version: 56054765
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: AllowDeletingBrowserHistory
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:240069
+Version: 1
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: BrowserGuestModeEnabled
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:240070
+Version: 1
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: AutofillCreditCardEnabled
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:240071
+Version: 1
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: AutofillAddressEnabled
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:240072
+Version: 1
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: ImportAutofillFormData
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:610055
+Version: 1
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: DownloadRestrictions
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:640053
+Version: 1
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: PromptForDownloadLocation
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:690066
+Version: 1
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: UrlKeyedAnonymizedDataCollectionEnabled
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:700067
+Version: 1
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: WebRtcEventLogCollectionAllowed
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:2400211
+Version: 56054765
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome\URLBlocklist
+Name: 1
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:52006300
+Version: 1
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: EnableMediaRouter
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:66005500
+Version: 1
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: AutoplayAllowed
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:66005700
+Version: 1
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: SafeBrowsingExtendedReportingEnabled
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:67005800
+Version: 1
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: DefaultWebUsbGuardSetting
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:68006000
+Version: 1
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: ChromeCleanupEnabled
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:68006100
+Version: 1
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: ChromeCleanupReportingEnabled
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:68006200
+Version: 1
+Hive: HKEY_LOCAL_MACHINE
+Key: Software\Policies\Google\Chrome
+Name: DeveloperToolsAvailability
+----------
+
+Found 6 registry objects.
+Object ID: oval:mil.disa.stig.chrome:obj:200
+Version: 2
+Hive: HKEY_LOCAL_MACHINE
+Key: SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall
+Name: DisplayName
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:201
+Version: 2
+Hive: HKEY_LOCAL_MACHINE
+Key: SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall
+Name: DisplayName
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:202
+Version: 3
+Hive: HKEY_LOCAL_MACHINE
+Key: None
+Name: DisplayVersion
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:203
+Version: 2
+Hive: HKEY_LOCAL_MACHINE
+Key: None
+Name: DisplayVersion
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:204
+Version: 1
+Hive: None
+Key: None
+Name: None
+----------
+
+Object ID: oval:mil.disa.stig.chrome:obj:205
+Version: 1
+Hive: None
+Key: None
+Name: None
+----------
+
